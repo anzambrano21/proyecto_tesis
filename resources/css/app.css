@@ -1,0 +1,138 @@
+.secundario {
+  color: #D9EAFD;
+
+
+}
+
+.secundario:hover {
+  border-radius: 10px;
+  background-color: #BCCCDC;
+  color: #F8FAFC
+}
+
+.bgprimario {
+  background-color: #9AA6B2;
+
+}
+
+.bgprimarioEmer {
+  background-color: #9AA6B2;
+  border-radius: 10px;
+}
+
+.none {
+  display: none;
+}
+
+.emergent-panel {
+  position: absolute;
+  margin-right: 25%;
+}
+
+.top-25 {
+  top: 25% !important;
+}
+
+.left-25 {
+  left: 25%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.contenedor {
+  min-height: 100%;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Estilo base */
+.react-datepicker {
+
+
+  /*font-size: 1.4rem !important;*/
+  justify-content: center;
+  transform: scale(1.4);
+  transform-origin: top center;
+}
+
+.react-datepicker__header {
+  padding-top: 1.5rem;
+}
+
+.react-datepicker__month {
+  margin: 1.5rem;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+  width: 3rem;
+  line-height: 3rem;
+  margin: 0.3rem;
+}
+
+.react-datepicker__current-month {
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+
+.react-datepicker__navigation {
+  top: 1.5rem;
+  line-height: 2.5rem;
+  border: 0.8rem solid transparent;
+}
+
+.react-datepicker__navigation--previous {
+  border-right-color: #666;
+  left: 1.5rem;
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: #666;
+  right: 1.5rem;
+}
+
+.react-datepicker__day:hover {
+  background-color: #e6e6e6;
+  border-radius: 50%;
+}
+
+.footercitas {
+  margin-top: 100px;
+}
+
+/* app.css */
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+tbody {
+  display: block;
+  height: 200px; /* Altura fija del tbody */
+  overflow-y: auto; /* Scroll si hay muchas filas */
+}
+
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
