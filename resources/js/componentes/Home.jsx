@@ -10,6 +10,7 @@ import {Inicisecion} from '../paginas/moduloInicioSecion.jsx'
 import {Registro} from '../paginas/moduloRegistro.jsx'
 import {Historias} from '../paginas/moduloHistorias.jsx'
 import {ModuloUsuario} from '../paginas/moduloUsuario.jsx'
+import {DatAdmin} from '../paginas/cambiosdedatosAdmin.jsx'
 export default function Home() {
     return (
         <div>
@@ -27,6 +28,7 @@ export default function Home() {
                     <Route path='/Registro' element={<Registro/>}/>
                     <Route path='/Historias' element={<Historias/>}/>
                     <Route path='/Usuario' element={<ModuloUsuario/>}/>
+                    <Route path='/Admin' element={<DatAdmin/>}/>
 
 
                 </Routes>

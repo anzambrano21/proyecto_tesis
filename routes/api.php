@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HistoriasControler;
 use App\Http\Controllers\CitasControler;
+use App\Http\Controllers\InstagramControl;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResource("Usuario",UsuarioController::class);
+Route::apiResource("Insta",InstagramControl::class);
 Route::apiResource("Historia",HistoriasControler::class);
 Route::apiResource("Cita",CitasControler::class);
 Route::post('/log',[UsuarioController::class,'Log']);

@@ -11,5 +11,6 @@ class Citas extends Model
     use HasFactory;
     protected $fillable = [ 'IdUser', 'fecha', 'hora', 'direc','pago','tipCit'];
     public function user() { 
-        return $this->belongsTo(Usuario::class, 'IdUser')->select("id",'Nombre','fechaN','sexo'); }
+        return $this->belongsTo(Usuario::class, 'IdUser')->select("id",'Nombre','fechaN','sexo');
+     }
 }

@@ -14,7 +14,7 @@ class HistoriasControler extends Controller
      */
     public function index()
     {
-        //
+        return Historias::with('user')->find(4);
     }
 
     /**
@@ -57,9 +57,9 @@ class HistoriasControler extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( $id)
     {
-        //
+        return Historias::where("IdUser",$id)->get();
     }
 
     /**
@@ -86,9 +86,9 @@ class HistoriasControler extends Controller
         //
     }
     public function pdf(Request $request) {
-        $nombre = $request->query('nombre');
-        $edad = $request->query('edad');
-        $data=Usuario::all();
+        
+        $id = $request->query('H');
+        $data=Historias::with('user')->find($id);
         $pdf = Pdf::loadView('historia', compact("data"));
         return $pdf->stream();
         

@@ -11,15 +11,16 @@ interface DiaColorido {
 
 interface MiCalendarioProps {
   diasColoridos: DiaColorido[];
+  
 }
 // eslint-disable-next-line react/display-name
-export const TimesBar: React.FC<MiCalendarioProps> = ({ diasColoridos }) => {
+export const TimesBar= ({ diasColoridos, diasBloqueados }) => {
   const example = useContext(Exaplecontect)
   const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
   const [hora, setHora] = useState(['']);
   const [time, setTime] = useState('');
   const [direc, setdirec] = useState('')
-  const [Pago, setpago] = useState('')
+  const [Pago, setpago] = useState('TPago')
   const [selectedValue, setSelectedValue] = useState('');
   const handleDateChange = async (date) => {
     
@@ -80,6 +81,10 @@ export const TimesBar: React.FC<MiCalendarioProps> = ({ diasColoridos }) => {
     }
 
   }
+  const filterDates = (date) => {
+    const day = date.getDay();
+    return !diasBloqueados.includes(day);
+};
   return (
     <div className=" p-8 row justify-content-around">
       <h2 className="text-2xl font-bold mb-4">fechas Disponibles</h2>
@@ -101,6 +106,7 @@ export const TimesBar: React.FC<MiCalendarioProps> = ({ diasColoridos }) => {
               {day}
             </div>
           )}
+          filterDate={filterDates}
         />
       </div>
       <div className="Formulario col-4 justify-content-start"> <div className="row">

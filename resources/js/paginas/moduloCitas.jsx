@@ -6,6 +6,7 @@ import '../../css/app.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 export const Citas = () => {
     const [diasColoridos, setDiasColoridos] = useState([]);
+    const [diasBloqueados, setDiasBloqueados] = useState([0, 1, 3, 6]);
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
@@ -38,7 +39,7 @@ export const Citas = () => {
         <div >
             <Navegador />
 
-            <TimesBar diasColoridos={diasColoridos} />
+            <TimesBar diasColoridos={diasColoridos} diasBloqueados={diasBloqueados} />
 
 
 

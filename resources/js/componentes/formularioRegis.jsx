@@ -14,7 +14,7 @@ export  const RegistroForm=()=> {
 
     }
     axios.post('http://127.0.0.1:8000/api/Usuario',datos)
-    window.location.href="http://127.0.0.1:8000/InicioSecion"
+    //window.location.href="http://127.0.0.1:8000/InicioSecion"
     
   }
 

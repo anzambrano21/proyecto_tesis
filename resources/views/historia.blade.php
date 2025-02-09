@@ -1,16 +1,79 @@
+<?php 
+use Carbon\Carbon;
+$ostM=[
+    'Artralgias',
+    'Debilidad',
+    'Dolores óseos',
+    'Deformidades',
+    'Otros'
+];
+$nerMen=[
+    'Convulsiones',
+    'Estática',
+    'Estado emocional',
+    'Marcha',
+    'Parálisis',
+    'Temblor',
+    'Tics',
+    'Tipo de personalidad',
+    'Otros'
+];
+$extre=[
+    'Color',
+    'Edemas',
+    'Temblor',
+    'Deformidades',
+    'Úlceras',
+    'Varices',
+    'Otros',
+];
+$neuro=[
+    'Sensibilidad objetiva',
+    'Movilidad',
+    'Reflectividad',
+    'Escritura',
+    'Tróficos',
+    'Marcha',
+    'Romberg',
+    'Orientación',
+    'Lenguaje',
+    'Coordinación',
+    'Otros',
+];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Historia Clínica Completa</title>
     <style>
+        .two-column-container {
+            display: flex;
+            
+        }
+        .column-item {
+            width: calc(50% - 5px); /* 50% de ancho menos la mitad del gap */
+        }
+        .parrafo {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            width: 100%;
+            max-width: 350px; /* Ajusta esto según tus necesidades */
+             /* Solo para visualización */
+            position:absolute;
+            padding: 0; /* Eliminamos el padding */
+            margin-left: 20px; /* Eliminamos todos los márgenes */
+            line-height: 1.2; /* Ajustamos el interlineado para un aspecto más compacto */
+        }
+        .checked { background-color: #000; }
         @page {
             size: letter;
             margin: 0.5in;
         }
         body {
             font-family: Arial, sans-serif;
-            font-size: 9pt;
+            font-size: 5pt;
             line-height: 1.3;
             margin: 0;
             padding: 0;
@@ -42,7 +105,7 @@
         }
         .form-number {
             text-align: right;
-            font-size: 9pt;
+            font-size: 8pt;
         }
         table {
             width: 100%;
@@ -53,6 +116,9 @@
             border: 1px solid black;
             padding: 0.03in;
             font-size: 8pt;
+        }
+        .sinb{
+            border-color: #ffffff;
         }
         .note {
             font-size: 7pt;
@@ -89,8 +155,9 @@
             margin-bottom: 0.1in;
         }
         .exam-list {
-            width: 50%;
+            width: 100%;
             padding-right: 0.1in;
+            border-color:#00ff00;
         }
         .findings {
             width: 50%;
@@ -104,7 +171,7 @@
             display: flex;
             gap: 0.2in;
             margin: 0.1in 0;
-            font-size: 9pt;
+            font-size: 8pt;
         }
         .text-center {
             text-align: center;
@@ -169,8 +236,7 @@
         <div class="header">
             <img src="logo.png" alt="Logo" class="logo">
             <div class="title-section">
-                <div>INSTITUTO VENEZOLANO DE LOS SEGUROS SOCIALES</div>
-                <div>HOSPITAL UNIVERSITARIO DR. "ANGEL LARRALDE"</div>
+
                 <div class="main-title">HISTORIA CLÍNICA</div>
                 <div>PARTE I</div>
             </div>
@@ -183,176 +249,212 @@
 
         <table>
             <tr>
-                <td colspan="2">APELLIDOS: <span class="input-field"></span></td>
-                <td colspan="2">NOMBRES: <span class="input-field"></span></td>
-                <td>SALA O CUARTO: <span class="input-field"></span></td>
-                <td>SERVICIO: <span class="input-field"></span></td>
+                <td colspan="2">APELLIDOS: <span class="input-field">{{$data->user->Nombre}}</span></td>
+                <td colspan="2">NOMBRES: <span class="input-field">{{$data->user->Nombre}}</span></td>
+                <td>SERVICIO:<span class="input-field">{{$data->servicio}}</span></td>
+                
             </tr>
             <tr>
-                <td>SEXO: <span class="input-field"></span></td>
-                <td>EDAD: <span class="input-field"></span></td>
-                <td>EDO. CIVIL: <span class="input-field"></span></td>
-                <td>OCUPACIÓN: <span class="input-field"></span></td>
-                <td colspan="2">S.S.O.: <span class="input-field"></span></td>
+                
+                <td>SEXO: <span class="input-field">{{$data->servicio}}</span></td>
+                <td>EDAD: <span class="input-field">{{$data->edad}}</span></td>
+                <td>EDO. CIVIL: <span class="input-field">{{$data->estadoC}}</span></td>
+                <td colspan="2">OCUPACIÓN: <span class="input-field">{{$data->ocupacion}}</span></td>
+                
             </tr>
         </table>
 
         <table>
             <tr>
-                <td>LUGAR DE NACIMIENTO: <span class="input-field"></span></td>
-                <td>FECHA DE NACIMIENTO: <span class="input-field"></span></td>
+                <td>LUGAR DE NACIMIENTO: <span class="input-field">{{$data->user->Lugar}}</span></td>
+                <td>FECHA DE NACIMIENTO: <span class="input-field">{{$data->user->fechaN}}</span></td>
             </tr>
             <tr>
-                <td colspan="2">DIRECCIÓN COMPLETA: <span class="input-field"></span></td>
+                <td colspan="2">DIRECCIÓN COMPLETA: <span class="input-field">{{$data->direccion}}</span></td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    AVISAR EN CASO DE EMERGENCIA A: <span class="input-field"></span>
-                    PARENTESCO: <span class="input-field"></span>
-                    DIRECCIÓN: <span class="input-field"></span>
-                </td>
-            </tr>
+            
         </table>
 
         <table>
             <tr>
-                <td>FECHA DE INGRESO: <span class="input-field"></span></td>
-                <td>HORA: <span class="input-field"></span></td>
-                <td>FECHA DE ADMISIÓN ANTERIOR: <span class="input-field"></span></td>
-                <td>RELIGIÓN: <span class="input-field"></span></td>
+                <td>FECHA DE INGRESO: <span class="input-field">{{Carbon::parse($data->created_at)->toDateString()}}</span></td>
+                
             </tr>
         </table>
 
-        <table>
-            <tr>
-                <td>INFORMACIÓN ADICIONAL (A juicio del examinador): <span class="input-field"></span></td>
-            </tr>
-        </table>
 
-        <div class="note">NOTA: Al ser admitido el paciente debe firmar la autorización que aparece al dorso de esta hoja.</div>
+
 
         <div class="section-title">MOTIVO(S) DE INGRESO</div>
-        <div class="dotted-line"></div>
+        <div class="dotted-line">{{$data->motivoIngreso}}</div>
 
         <div class="section-title">ENFERMEDAD ACTUAL</div>
         <div class="note">(hacer relato conciso y completo de las dolencias, indicando: fecha de comienzo, duración y tratamiento de cada una de ellas):</div>
-        <div class="dotted-line multi-line"></div>
+        <div class="dotted-line multi-line">{{$data->enfermedadAct}}</div>
 
         <div class="section-title">DIAGNÓSTICO PROVISIONAL</div>
-        <div class="dotted-line"></div>
+        <div class="dotted-line">{{$data->diagnosPro}}</div>
 
         <div class="discharge-options">
-            EGRESO POR: CURACIÓN:<span class="checkbox"></span> MEJORÍA:<span class="checkbox"></span> MUERTE:<span class="checkbox"></span> (AUTOPSIA PEDIDA <span class="checkbox"></span>) OTRAS CAUSAS: <span class="checkbox"></span>
+            EGRESO POR: CURACIÓN:<span class="checkbox"></span> MEJORÍA:<span class="checkbox">
         </div>
         <div class="note text-right">(SI CONTRA OPINIÓN MÉDICA, HACERLE FIRMAR AL DORSO)</div>
 
         <div class="section-title">DIAGNÓSTICO CLÍNICO FINAL:</div>
         <div class="dotted-line"></div>
 
-        <div class="mt-20">
-            FECHA DE EGRESO: <span class="input-field"></span> HORA: <span class="input-field"></span> m.
-        </div>
 
-        <div class="signature-section">
-            <div class="signature-line">FIRMA DEL JEFE DE SERVICIO</div>
-        </div>
+
 
         <!-- Page break between Part I and Part II -->
         <div class="page-break"></div>
 
         <!-- Part II -->
         <div class="header">
-            <img src="logo.png" alt="Logo" class="logo">
-            <div class="title-section">
-                <div>INSTITUTO VENEZOLANO DE LOS SEGUROS SOCIALES</div>
-                <div>HOSPITAL UNIVERSITARIO DR. "ANGEL LARRALDE"</div>
-                <div class="main-title">HISTORIA CLINICA</div>
-                <div>PARTE II</div>
-            </div>
-            <div>Historia No.<span class="input-field"></span></div>
+        <img src="{{ public_path('logo.png') }}" alt="Logo" class="logo">
+        <div class="title-section">
+            <div class="main-title">HISTORIA CLINICA</div>
+            <div>PARTE II</div>
         </div>
+        <div>Historia No.<span class="input-field"></span></div>
+    </div>
 
-        <table>
-            <tr>
-                <td colspan="2">NOMBRE: <span class="input-field"></span></td>
-                <td>SALA O CUARTO: <span class="input-field"></span></td>
-                <td>CAMA: <span class="input-field"></span></td>
-                <td>SERVICIO: <span class="input-field"></span></td>
-            </tr>
-        </table>
+    <table>
+        <tr>
+            <td>NOMBRE: <span class="input-field">{{$data->user->Nombre}}</span></td>
+            <td>SERVICIO: <span class="input-field">{{$data->servicio}}</span></td>
+            <td>PULSO: <span class="input-field"></span> p.p.m</td>
+            <td>RESPIRACIÓN: <span class="input-field"></span> r.p.m.</td>
+        </tr>
+        <tr>                
+            <td>TENSIÓN ARTERIAL: <span class="input-field"></span> MX <span class="input-field"></span> MN</td>
+            <td>PESO: <span class="input-field"></span> kgs.</td>
+            <td>TALLA: <span class="input-field"></span> cm.</td>
+            <td>IMC: <span class="input-field"></span> Kg/cm²</td>
+        </tr>
+    </table>
 
-        <table>
-            <tr>
-                <td>TEMPERATURA: <span class="input-field"></span> ºC</td>
-                <td>PULSO: <span class="input-field"></span> p.p.m</td>
-                <td>RESPIRACIÓN: <span class="input-field"></span> r.p.m.</td>
-                <td>TENSIÓN ARTERIAL: <span class="input-field"></span> MX <span class="input-field"></span> MN</td>
-            </tr>
-            <tr>
-                <td>FRECUENCIA CARDIACA: <span class="input-field"></span> i.p.m.</td>
-                <td>PESO: <span class="input-field"></span> kgs.</td>
-                <td>TALLA: <span class="input-field"></span> cm.</td>
-                <td>GRASA CORPORAL (Cintura/Cadera): <span class="input-field"></span> IMC: <span class="input-field"></span> Kg/cm²</td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td > 
-               Marcar así: √ lo encontrado normal después de examinar. Dejar en blanco lo no encontrado o interrogado.
-                </td>
-                <td>
-                    Marcar así: x en la columna de la izquierda lo encontrado anormal al examen y describirlo en esta columna usando los números de referencia dados para ahorrar espacio y tiempo al escribirlo. 
-                </td>
-            </tr>
-            <tr>
-                <td>
+    <table>
+        <tr>
+            <td>Marcar así: √ lo encontrado normal después de examinar. Dejar en blanco lo no encontrado o interrogado.</td>
+            <td>Marcar así: x en la columna de la izquierda lo encontrado anormal al examen y describirlo en esta columna usando los números de referencia dados para ahorrar espacio y tiempo al escribirlo.</td>
+        </tr>
+        <tr>
+            <td >
                 <div class="exam-list">
                     <div class="section-title">EXAMEN FÍSICO</div>
-                    <div class="note">(Datos Objetivos)</div>
-            
-                    <div class="section-title">1.- PIEL</div>
-                    <div class="subsection">
-                        1.1 Color<br>
-                        1.2 Humedad<br>
-                        1.3 Contextura<br>
-                        1.4 Temperatura<br>
-                        1.5 Pigmentación<br>
-                        1.6 Equimosis<br>
-                        1.7 Ictericia<br>
-                        1.8 Petequias<br>
-                        1.9 Erupción
-                    </div>
+                    
+                    <div class="section-title">1.- EXTREMIDADES</div>
+                    <table class="checkbox-table">
+                        @php $count = 0; @endphp
+                        @foreach($extre as $item)
+                            @if($count % 2 == 0)
+                                <tr>
+                            @endif
+                            <td class="sinb">
+                                
+                                    @if(in_array($item, explode(',', $data->EXTREMIDADES)))
+                                        <span class="checkbox checked"></span>
+                                    @else
+                                        <span class="checkbox"></span>
+                                    @endif
+                                    {{ $item }}
+                                
+                            </td>
+                            @if($count % 2 == 1 || $loop->last)
+                                </tr>
+                            @endif
+                            @php $count++; @endphp
+                        @endforeach
+                    </table>
 
-                    <div class="section-title">2.- CABEZA</div>
-                    <div class="subsection">
-                        2.1 Configuración<br>
-                        2.2 Fontanelas<br>
-                        2.3 Reblandecimiento<br>
-                        2.4 Circunferencia<br>
-                        2.5 Dolor<br>
-                        2.6 Cabellos<br>
-                        2.7 Otros
-                    </div>
+                    <div class="section-title">2.- OSTEOMUSCULAR</div>
+                    <table class="checkbox-table">
+                        @php $count = 0; @endphp
+                        @foreach($ostM as $item)
+                            @if($count % 2 == 0)
+                                <tr>
+                            @endif
+                            <td class="sinb">
+                                
+                                    @if(in_array($item, explode(',', $data->OSTEOMUSCULAR)))
+                                        <span class="checkbox checked"></span>
+                                    @else
+                                        <span class="checkbox"></span>
+                                    @endif
+                                    {{ $item }}
+                                
+                            </td>
+                            @if($count % 2 == 1 || $loop->last)
+                                </tr>
+                            @endif
+                            @php $count++; @endphp
+                        @endforeach
+                    </table>
 
-                    <div class="section-title">3.- OJOS</div>
-                    <div class="subsection">
-                        3.1 Conjuntiva<br>
-                        3.2 Esclerótica<br>
-                        3.3 Córnea<br>
-                        3.4 Pupilas<br>
-                    </div>
+                    
+
+                    <div class="section-title">3.- NERVIOSO Y MENTAL</div>
+                    <table class="checkbox-table">
+                        @php $count = 0; @endphp
+                        @foreach($nerMen as $item)
+                            @if($count % 2 == 0)
+                                <tr>
+                            @endif
+                            <td class="sinb">
+                                
+                                    @if(in_array($item, explode(',', $data->EXTREMIDADES)))
+                                        <span class="checkbox checked"></span>
+                                    @else
+                                        <span class="checkbox"></span>
+                                    @endif
+                                    {{ $item }}
+                                
+                            </td>
+                            @if($count % 2 == 1 || $loop->last)
+                                </tr>
+                            @endif
+                            @php $count++; @endphp
+                        @endforeach
+                    </table>
+
+
+                    <div class="section-title">4.- NEUROLÓGICO Y PSÍQUICO</div>
+                    <table class="checkbox-table">
+                        @php $count = 0; @endphp
+                        @foreach($neuro as $item)
+                            @if($count % 2 == 0)
+                                <tr>
+                            @endif
+                            <td class="sinb">
+                                
+                                    @if(in_array($item, explode(',', $data->NEUROLÓGICOPSÍQUICO)))
+                                        <span class="checkbox checked"></span>
+                                    @else
+                                        <span class="checkbox"></span>
+                                    @endif
+                                    {{ $item }}
+                                
+                            </td>
+                            @if($count % 2 == 1 || $loop->last)
+                                </tr>
+                            @endif
+                            @php $count++; @endphp
+                        @endforeach
+                    </table>
+                    
                 </div>
-                </td>
-                <td></td>
-            </tr>
+            </td>
+            <td >
+                <p class="parrafo">{{$data->infoAdd}}</p>
+            </td>
+        </tr>
+    </table>
 
-
-
-        </table>
-        <div class="container diagServi">
-            <p>Diagnóstico del Servicio:</p>
-
-        </div>
+    <div class="diagServi">
+        <p>Diagnóstico del Definitivo:</p>
+        <p >{{$data->diagnoServ}}</p>
+    </div>
 
         
     </div>

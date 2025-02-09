@@ -37,17 +37,13 @@ class UsuarioController extends Controller
             "email" =>$request['email'],
             "telefono" =>$request['telef'],
             "password" =>Hash::make($request['contra']),
-            "rol"=>'paciente'
+            "rol"=>'paciente',
         ]);
     }
     public function Log(Request $request) {
         $user = Usuario::where('email', $request->email)->first();
         if ($user && Hash::check($request->contra, $user->password)) {
-            if ($user->rol="medico"){
-                Session::put("Rol", 'medico'); 
-            }else{
-                Session::put("Rol", 'paciente');
-            }
+             Session::put("Rol", $user['rol']);
              // Autenticar al usuario 
              Session::put("user", $user["NombreUse"]);
              Session::put("home", "Login successful");
@@ -80,9 +76,20 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  $id)
     {
-        //
+        $user=Usuario::find($id);
+        $user->Nombre=$request['nombre'];
+        $user->Ubicacion=$request['ubicacion'];
+        $user->email =$request['email'];
+        $user->telefono=$request['telefono'];
+        $user->password=Hash::make($request['password']);
+        $user->sexo=$request['sexo'];
+        $user->estadoC=$request['estadoC'];
+        $user->Ocupa=$request['ocupa'];
+        $user->Lugar=$request['lugar'];
+        $user->fechaN=$request['fechaN'];
+        $user->save();
     }
 
     /**

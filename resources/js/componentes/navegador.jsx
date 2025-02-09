@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 export const Navegador=()=>{
     const example = useContext(Exaplecontect)
+    console.log(example);
     
     
     return(

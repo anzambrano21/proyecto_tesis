@@ -1,7 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
-export const FormUser = () => {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+import { useState, useEffect, useContext } from 'react'
+
+export const FormUser = ({onClick,cambios}) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData: Record<string, string | string[]> = {};
 
@@ -27,9 +29,10 @@ export const FormUser = () => {
 
 
 
-        console.log('Form Data:', formData);
+        cambios(formData)
         // Aquí puedes enviar formData a una API o realizar otras acciones
     };
+
     return (
         <div className="card-body container pt-5">
             <form className="needs-validation" onSubmit={handleSubmit}>
@@ -108,7 +111,7 @@ export const FormUser = () => {
                         <button className="btn btn-primary w-100" type="submit">Guardar</button>
                     </div>
                     <div className=" col-3 mt-4">
-                        <button className="btn btn-danger w-100" type="submit">Cerrar Secion</button>
+                        <button className="btn btn-danger w-100" onClick={onClick}>Cerrar Secion</button>
                     </div>
                 </div>
 

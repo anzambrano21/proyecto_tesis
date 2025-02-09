@@ -151,7 +151,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                     name="sexo"
                     id="masculino"
                     value="masculino"
-                    checked={formData.sexo === 'masculino'}
+                    checked={formData.sexo === 'M'}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="masculino">
@@ -165,7 +165,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                     name="sexo"
                     id="femenino"
                     value="femenino"
-                    checked={formData.sexo === 'femenino'}
+                    checked={formData.sexo === 'F'}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="femenino">

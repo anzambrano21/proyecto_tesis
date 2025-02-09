@@ -3,11 +3,15 @@ import { TablaCita } from "../componentes/tablaaCita.jsx";
 import { TablaHistoria } from '../componentes/tablaHistorias.jsx';
 import { Navegador } from '../componentes/navegador.jsx';
 import { Footer } from "../componentes/Footer.jsx";
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect,useContext} from 'react';
 import axios from 'axios';
-
+import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 export const FisioCita = () => {
+  const example = useContext(Exaplecontect)
+  console.log(example);
+  
   const [data, setData] = useState([]);
+  const [histo, sethisto] = useState([]);
   useEffect(() => { 
     // Esta función se ejecuta antes de que el componente se renderice
     const fetchData = async () => { 
@@ -22,7 +26,7 @@ export const FisioCita = () => {
     }; 
     fetchData(); 
   }, []);
-  const [formData, setFormData] = useState({ nombre: '', date: '', time: '',edad:'',sexo:'' });
+  const [formData, setFormData] = useState({ nombre: '', date: '', time: '',edad:'',sexo:'',id:'' });
   const [direccion, setDireccion] = useState('');
   const [coordenadas, setCoordenadas] = useState(null);
   const [error, setError] = useState(null);
@@ -73,13 +77,18 @@ export const FisioCita = () => {
       time: cita.hora,
       edad: edad,
       sexo: cita.user.sexo,
+      id: cita.id
     });
     setDireccion(cita.direc)
+    let historias= await axios.get(`http://127.0.0.1:8000/api/Historia/${cita.IdUser}`)
+    sethisto(historias.data);
+    
+
 
     // manejarCambioDireccion({ target: { value: cita.direccion } });
   };
   const CrearHistoria=()=>{
-    window.location.href="http://127.0.0.1:8000/Historias?User=4"
+    window.location.href=`http://127.0.0.1:8000/Historias?User=${formData.id}`
   }
 
   return (
@@ -90,7 +99,7 @@ export const FisioCita = () => {
           <TablaCita onSelect={handleSelectCita} data={data} />
         </div>
         <div className='col-4'>
-          <TablaHistoria />
+          <TablaHistoria data={histo} />
         </div>
       </div>
       <div className="row justify-content-around ">

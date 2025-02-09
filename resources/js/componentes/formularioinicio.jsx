@@ -7,7 +7,7 @@ import axios from "axios"
 export const InicioFormu=()=>{
   const [showPassword, setShowPassword] = useState(false)
   const example = useContext(Exaplecontect)
-  console.log(example);
+  
   async function Inicio() {
     let datos={
       email: document.getElementById('email').value,
@@ -15,6 +15,8 @@ export const InicioFormu=()=>{
     }
     let response = await axios.post('http://127.0.0.1:8000/api/log',datos)
     if (response.data['home']=="Login successful"){
+      console.log(response);
+      
       example.setDatos(response.data);
       window.location.href="http://127.0.0.1:8000/"
     }
