@@ -11,6 +11,9 @@ import {Registro} from '../paginas/moduloRegistro.jsx'
 import {Historias} from '../paginas/moduloHistorias.jsx'
 import {ModuloUsuario} from '../paginas/moduloUsuario.jsx'
 import {DatAdmin} from '../paginas/cambiosdedatosAdmin.jsx'
+import { Contenido } from '../paginas/moduloContenido.jsx';
+import {CrearConte} from '../paginas/modulocrearConte.jsx';
+import {AsignarCont} from '../paginas/moduloAsignarCon.jsx'
 export default function Home() {
     return (
         <div>
@@ -29,6 +32,9 @@ export default function Home() {
                     <Route path='/Historias' element={<Historias/>}/>
                     <Route path='/Usuario' element={<ModuloUsuario/>}/>
                     <Route path='/Admin' element={<DatAdmin/>}/>
+                    <Route path='/Conte' element={<Contenido/>}/>
+                    <Route path='/CrearConte' element={<CrearConte/>}/>
+                    <Route path='/Asignar' element={<AsignarCont/>}/>
 
 
                 </Routes>

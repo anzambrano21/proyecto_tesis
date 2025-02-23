@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Instagram extends Model
 {
     use HasFactory;
-    protected $table="instagram";
+    protected $table="instagrams";
     protected $fillable = [ 'IDuser', 'Token', ];
 }

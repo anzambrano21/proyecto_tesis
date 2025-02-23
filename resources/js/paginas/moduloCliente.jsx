@@ -15,7 +15,7 @@ export const Cliente = () => {
             try { 
                 let response = await axios.get(`http://127.0.0.1:8000/api/Insta`); 
                 console.log(response.data);
-                let response2= await axios.get(`https://graph.instagram.com/${response.data[0].IDuser}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&access_token=${response.data[0].Token}`)  
+                let response2= await axios.get(`https://graph.instagram.com/${response.data.IDuser}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&access_token=${response.data.Token}`)  
                 console.log(response2.data.data);
                 
                 
@@ -26,6 +26,10 @@ export const Cliente = () => {
         }; 
         fetchData(); 
       }, []);
+      if (!insta) {
+        // Si insta es null, mostrar un mensaje de carga
+        return <div></div>;
+      }
     return (
         <div >
             <Navegador/>

@@ -6,6 +6,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HistoriasControler;
 use App\Http\Controllers\CitasControler;
 use App\Http\Controllers\InstagramControl;
+use App\Http\Controllers\AsugMatController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,3 +27,4 @@ Route::apiResource("Historia",HistoriasControler::class);
 Route::apiResource("Cita",CitasControler::class);
 Route::post('/log',[UsuarioController::class,'Log']);
 Route::get('/all',[CitasControler::class,'Citas']);
+Route::apiResource("Material",AsugMatController::class);

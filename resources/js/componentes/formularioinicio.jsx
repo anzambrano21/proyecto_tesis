@@ -16,10 +16,13 @@ export const InicioFormu=()=>{
     let response = await axios.post('http://127.0.0.1:8000/api/log',datos)
     if (response.data['home']=="Login successful"){
       console.log(response);
-      
+      alert("Session iniciada")
       example.setDatos(response.data);
       window.location.href="http://127.0.0.1:8000/"
+    }else{
+      alert("Datos Incorrepto");
     }
+
     
     
     

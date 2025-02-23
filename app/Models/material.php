@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\material;
 class material extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'IDuser', 'Token', ];
+    protected $fillable = [ 'Titulo', 'Archivo','COntenido' ];
+    public function Asignar() {
+        return $this->hasMany(AsugMat::class, 'id'); 
+        
+    }
 }
