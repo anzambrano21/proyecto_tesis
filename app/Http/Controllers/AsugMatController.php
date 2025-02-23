@@ -28,7 +28,7 @@ class AsugMatController extends Controller
             $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
     
             // Almacenar el archivo en el disco configurado (por defecto 'local')
-            $rutaArchivo = $archivo->storeAs('archivos', $nombreArchivo, 'public');
+            $rutaArchivo = $archivo->move(public_path('archivos'), $nombreArchivo);
             // Realizar alguna acción si el índice 'file' está presente
             material::create([
                 "Titulo" =>$request['Titulo'],
