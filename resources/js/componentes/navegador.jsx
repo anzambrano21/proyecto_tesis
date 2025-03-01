@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 export const Navegador = () => {
     const example = useContext(Exaplecontect)
-    console.log(example);
+    
 
-
+    
     return (
         <header className="bgprimario py-1 px-6">
             <div className="contenedor">
@@ -25,16 +25,7 @@ export const Navegador = () => {
                                 <li className="nav-item">
                                     <a href={(Object.keys(example.datos).length > 0) ? "/Usuario" : "/InicioSecion"} className="nav-link secundario">{(Object.keys(example.datos).length > 0) ? "Usuario" : "Inicio Sesion"}</a>
                                 </li>
-                                {example.datos.Rol === "medico" ? (
-                                    <>
-                                        <li className="nav-item">
-                                            <a href="/fisioCita" className="nav-link secundario">Agendas</a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="/Admin" className="nav-link secundario">Admin</a>
-                                        </li>
-                                    </>
-                                ) : null}
+                                
 
                             </ul>
                         </nav>

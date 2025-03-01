@@ -1,6 +1,6 @@
 export const Footer=()=>{
     
-    let ban=(window.location.pathname=='/' || window.location.pathname=="/fisioCita" || window.location.pathname=="/Registro" 
+    let ban=(window.location.pathname=='/' || window.location.pathname=="/fisioCita" || window.location.pathname=="/Registro" || window.location.pathname=="/Conte" 
       || window.location.pathname=="/Historias"    )? true: false;
     console.log(ban);//Historias
     
