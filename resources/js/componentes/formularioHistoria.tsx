@@ -350,7 +350,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
         </div>
 
         {/* Octava fila */}
-        <div className="row g-3 mb-4"><div className="row g-3 mb-4">
+        <div className="row g-3 "><div className="row g-3 ">
           <div className="col-md-4">
             <div className="form-floating">
               <textarea
@@ -365,7 +365,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO</label>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-4">
             <div className="form-floating">
               <textarea
                 className="form-control"
@@ -379,7 +379,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               <label htmlFor="enfermedadActual">ENFERMEDAD ACTUAL</label>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-4">
             <div className="form-floating">
               <textarea
                 className="form-control"
@@ -396,7 +396,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
         </div>
 
         {/* Diagnóstico del Servicio */}
-        <div className="row g-3 mb-4">
+        <div className="row g-3 ">
           <div className="col-12">
             <div className="form-floating">
               <textarea
@@ -409,6 +409,22 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 onChange={handleChange}
               ></textarea>
               <label htmlFor="diagnosticoServicio">DIAGNÓSTICO DEL SERVICIO</label>
+            </div>
+          </div>
+        </div>
+        <div className="row g-3 mb-4 ">
+          <div className="col-12">
+            <div className="form-floating">
+              <textarea
+                className="form-control"
+                id="diagnosticoServicio"
+                name="diagnosticoServicio"
+                placeholder="DIAGNÓSTICO DEL SERVICIO"
+                style={{ height: '150px' }}
+                value={formData.diagnosticoServicio}
+                onChange={handleChange}
+              ></textarea>
+              <label htmlFor="diagnosticoServicio">Nota de Evaluacion</label>
             </div>
           </div>
         </div>

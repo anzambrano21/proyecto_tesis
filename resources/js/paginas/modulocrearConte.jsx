@@ -44,6 +44,12 @@ export const CrearConte = () => {
             setFile(e.dataTransfer.files[0])
         }
     }
+    const seleccionConte = (e) => {
+        document.getElementById('Titulo').value=e.Titulo
+        document.getElementById('motivoIngreso').value=e.COntenido
+        console.log(e);
+        
+    }
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -90,7 +96,7 @@ export const CrearConte = () => {
                     <div className="row">
                         {/* Columna de la tabla */}
                         <div className="col-md-6 mb-4 mb-md-0">
-                            <TablaCont data={Conte} />
+                            <TablaCont data={Conte} funcion={seleccionConte} />
                         </div>
 
                         {/* Columna del formulario */}
@@ -104,13 +110,13 @@ export const CrearConte = () => {
                                             className="form-control"
                                             id="Titulo"
                                             name="Ubicacion"
-                                            placeholder="Dirección Completa"
+                                            placeholder="Titulo"
                                             style={{
                                                 height: "60px",
                                                 borderRadius: "8px",
                                             }}
                                         />
-                                        <label htmlFor="Titulo">Dirección Completa</label>
+                                        <label htmlFor="Titulo">Titulo</label>
                                     </div>
                                 </div>
 

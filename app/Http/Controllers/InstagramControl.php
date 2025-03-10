@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Instagram;
 use App\Models\DatFisio;
-
+use App\Models\Citas;
+use Carbon\Carbon;
 class InstagramControl extends Controller
 {
     private $daysMap = [
@@ -28,6 +29,7 @@ class InstagramControl extends Controller
     }
     public function index()
     {
+
         $insta = Instagram::first();
         $datFi = DatFisio::first();
         return [
@@ -78,11 +80,15 @@ class InstagramControl extends Controller
         //
     }
 
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  $con)
     {
+        if ($con==1) {
+           
+        
         $insta = Instagram::first();
         $datFi = DatFisio::first();
         $insta->IDuser = $request->IDuser;
@@ -95,6 +101,41 @@ class InstagramControl extends Controller
         $datFi->dias=$request->dias;
         $insta->save();
         $datFi->save();
+        
+        Citas::whereIn('fecha', $request->fechas)->delete();
+        }else{
+            $citas = Citas::select('fecha')->get();
+
+        // Lista para almacenar las fechas que coinciden
+        $fechasCoincidentes = [];
+
+        foreach ($citas as $cita) {
+    // Convertir la fecha al formato Carbon para obtener el día de la semana
+            $fecha = Carbon::parse($cita->fecha);
+            $diaDeLaSemana = $fecha->format('l'); // Obtener el día de la semana en inglés
+
+            // Convertir el día de la semana al español
+            $diaEnEspañol = [
+                'Monday' => 'Lunes',
+                'Tuesday' => 'Martes',
+                'Wednesday' => 'Miercoles',
+                'Thursday' => 'Jueves',
+                'Friday' => 'Viernes',
+                'Saturday' => 'Sabado',
+                'Sunday' => 'Domingo'
+            ][$diaDeLaSemana];
+
+            // Comprobar si el día de la semana está en la lista
+            if (in_array($diaEnEspañol, explode(',', $request->dias)) && !in_array($cita->fecha, $fechasCoincidentes)) {
+                // Agregar la fecha a la lista de fechas coincidentes
+                $fechasCoincidentes[] = $cita->fecha;
+            }
+        }
+        if(count($fechasCoincidentes)>0){
+            return $fechasCoincidentes;
+        }
+        }
+
         
     }
 

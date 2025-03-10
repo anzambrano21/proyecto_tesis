@@ -2,6 +2,8 @@ import { FileText, FileIcon as FilePresentation, ChevronRight } from "lucide-rea
 import React, { useEffect, useState } from 'react';
 export const Contenido=({registro})=>{
     const [isExpanded, setIsExpanded] = useState(true)
+    console.log(registro);
+    
     return(
         <div className="container py-4">
         {/* Topic Header - Always visible */}
@@ -47,14 +49,11 @@ export const Contenido=({registro})=>{
 
                     {/* Resources */}
                     <div className="mb-4">
-                        <a href="#" className="d-flex align-items-center text-decoration-none text-success mb-2 gap-2">
+                        <a href={"http://localhost:5173/public/archivos/"+registro.material.Archivo} className="d-flex align-items-center text-decoration-none text-success mb-2 gap-2">
                             <FileText size={20} />
                             <span>material_de_consulta_Unidad_IV</span>
                         </a>
-                        <a href="#" className="d-flex align-items-center text-decoration-none text-success gap-2">
-                            <FilePresentation size={20} />
-                            <span>El Proceso Gerencial y La Planificación.</span>
-                        </a>
+                        
                     </div>
 
                     {/* Learning Check */}

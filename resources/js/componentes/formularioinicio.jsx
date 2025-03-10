@@ -18,7 +18,7 @@ export const InicioFormu=()=>{
       console.log(response);
       alert("Session iniciada")
       example.setDatos(response.data);
-      window.location.href="http://127.0.0.1:8000/"
+      window.location.href="http://127.0.0.1:8000/Conte"
     }else{
       alert("Datos Incorrepto");
     }

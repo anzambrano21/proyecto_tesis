@@ -58,9 +58,11 @@ class AsugMatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AsugMat $asugMat)
+    public function update(Request $request,  $asugMat)
     {
-        //
+        if($asugMat==1){
+            AsugMat::where('IdUser',$request->IdUser)->where('IdMat',$request->IdMat)->delete();
+        }
     }
 
     /**
@@ -68,6 +70,6 @@ class AsugMatController extends Controller
      */
     public function destroy(AsugMat $asugMat)
     {
-        //
+        
     }
 }

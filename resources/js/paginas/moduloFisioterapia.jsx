@@ -88,7 +88,10 @@ export const FisioCita = () => {
     // manejarCambioDireccion({ target: { value: cita.direccion } });
   };
   const CrearHistoria=()=>{
-    window.location.href=`http://127.0.0.1:8000/Historias?User=${formData.id}`
+    window.location.href=`http://127.0.0.1:8000/Historias?User=${formData.id}&edit=off`
+  }
+  const EditarHistoria=()=>{
+    window.location.href=`http://127.0.0.1:8000/Historias?User=${formData.id}&edit=on`
   }
 
   return (
@@ -141,6 +144,7 @@ export const FisioCita = () => {
           <div className="row mt-2">
             <div className="col-4">
               <button onClick={CrearHistoria}  className="btn btn-success w-100">Asociar Historia</button>
+              <button onClick={EditarHistoria}  className="btn btn-success w-100">Editar Historia</button>
             </div>
           </div>
         </div>

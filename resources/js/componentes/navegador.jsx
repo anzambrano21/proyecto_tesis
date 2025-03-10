@@ -15,6 +15,9 @@ export const Navegador = () => {
                     <div className="col-md-6">
                         <nav>
                             <ul className="nav justify-content-end">
+                                <li>
+                                    <a href="/conte" className="nav-link secundario">Contenido</a>
+                                </li>
                                 <li className="nav-item">
                                     <a href="/" className="nav-link secundario ">Inicio</a>
                                 </li>
@@ -25,6 +28,7 @@ export const Navegador = () => {
                                 <li className="nav-item">
                                     <a href={(Object.keys(example.datos).length > 0) ? "/Usuario" : "/InicioSecion"} className="nav-link secundario">{(Object.keys(example.datos).length > 0) ? "Usuario" : "Inicio Sesion"}</a>
                                 </li>
+
                                 
 
                             </ul>

@@ -11,6 +11,6 @@ class AsugMat extends Model
     protected $table="asig_mats";
     protected $fillable = [ 'IdUser', 'IdMat'];
     public function Material() { 
-        return $this->belongsTo(material::class, 'IdUser')->select("id",'Titulo','Archivo','COntenido');
+        return $this->belongsTo(material::class, 'IdMat')->select("id",'Titulo','Archivo','COntenido');
      }
 }

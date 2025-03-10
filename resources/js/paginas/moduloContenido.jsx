@@ -6,6 +6,7 @@ import {ObcionAdmin} from '../componentes/ObcionesAdmin.jsx'
 import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 export const Contenido = () => {
     const example = useContext(Exaplecontect)
+    
     console.log(example);
     if(example.datos.Rol!=='medico'){
         return (

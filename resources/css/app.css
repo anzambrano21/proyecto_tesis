@@ -1,8 +1,7 @@
 .secundario {
   color: #D9EAFD;
-
-
 }
+
 
 .secundario:hover {
   border-radius: 10px;
@@ -27,6 +26,15 @@
 .emergent-panel {
   position: absolute;
   margin-right: 25%;
+  
+}
+.emergent-panel2{
+  position: absolute;
+  margin-left: 12%;
+  border-radius: 5px;
+}
+.conemer{
+  margin: 20px;
 }
 
 .top-25 {
