@@ -1,110 +1,184 @@
-import React, { useState, useEffect } from 'react';
-import { CheckboxGroup } from './CheckboxGroup';
+"use client"
+
+import React from "react"
+import { useState, useEffect } from "react"
+import { CheckboxGroup } from "./CheckboxGroup"
 import axios from "axios"
+
+interface NotaEvalua {
+  id: number
+  Nota: string
+}
+
 interface FormData {
-  id: number;
-  Nombre: string;
-  Servicio: string;
-  sexo: string;
-  fechaN: string;
-  estadoC: string;
-  Ocupa: string;
-  Lugar: string;
-  Ubicacion: string;
-  fechaIngreso: string;
-  informacionAdicional: string;
-  motivoIngreso: string;
-  enfermedadActual: string;
-  diagnosticoProvisional: string;
-  diagnosticoServicio: string;
-  osteomuscular: string[];
-  nerviosoYMental: string[];
-  extremidades: string[];
-  neurologicoYPsiquico: string[];
+  id: number
+  Nombre: string
+  Servicio: string
+  sexo: string
+  EGRESO: string
+  fechaN: string
+  estadoC: string
+  Ocupa: string
+  Lugar: string
+  Ubicacion: string
+  fechaIngreso: string
+  informacionAdicional: string
+  motivoIngreso: string
+  enfermedadActual: string
+  diagnosticoProvisional: string
+  diagnosticoServicio: string
+  nuevaNotaEvalua: string
+  NotaEvalua: NotaEvalua[]
+  osteomuscular: string[]
+  nerviosoYMental: string[]
+  extremidades: string[]
+  neurologicoYPsiquico: string[]
+  idH: number
 }
 
 export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) => {
-  const [formData, setFormData] = useState<FormData>({
-    id:  dato.id,
-    Nombre: dato.Nombre || '',
-    Servicio: dato.Servicio || '',
-    sexo: dato.sexo || '',
-    fechaN: dato.fechaN || '',
-    estadoC: dato.estadoC || '',
-    Ocupa: dato.Ocupa || '',
-    Lugar: dato.Lugar || '',
-    Ubicacion: dato.Ubicacion || '',
-    fechaIngreso: dato.fechaIngreso || '',
-    informacionAdicional: dato.informacionAdicional || '',
-    motivoIngreso: dato.motivoIngreso || '',
-    enfermedadActual: dato.enfermedadActual || '',
-    diagnosticoProvisional: dato.diagnosticoProvisional || '',
-    diagnosticoServicio: dato.diagnosticoServicio || '',
-    osteomuscular: dato.osteomuscular || [],
-    nerviosoYMental: dato.nerviosoYMental || [],
-    extremidades: dato.extremidades || [],
-    neurologicoYPsiquico: dato.neurologicoYPsiquico || []
-  });
+
+
+  const [loading, setLoading] = useState(true)
+  const [formData, setFormData] = useState<FormData | null>(null)
 
   useEffect(() => {
-    setFormData(prevData => ({
-      ...prevData,
-      id:  dato.id || prevData.id,
-      Nombre: dato.Nombre || prevData.Nombre,
-      Servicio: dato.Servicio || prevData.Servicio,
-      sexo: dato.sexo || prevData.sexo,
-      fechaN: dato.fechaN || prevData.fechaN,
-      estadoC: dato.estadoC || prevData.estadoC,
-      Ocupa: dato.Ocupa || prevData.Ocupa,
-      Lugar: dato.Lugar || prevData.Lugar,
-      Ubicacion: dato.Ubicacion || prevData.Ubicacion,
-      fechaIngreso: dato.fechaIngreso || prevData.fechaIngreso,
-      informacionAdicional: dato.informacionAdicional || prevData.informacionAdicional,
-      motivoIngreso: dato.motivoIngreso || prevData.motivoIngreso,
-      enfermedadActual: dato.enfermedadActual || prevData.enfermedadActual,
-      diagnosticoProvisional: dato.diagnosticoProvisional || prevData.diagnosticoProvisional,
-      diagnosticoServicio: dato.diagnosticoServicio || prevData.diagnosticoServicio,
-      osteomuscular: dato.osteomuscular || prevData.osteomuscular,
-      nerviosoYMental: dato.nerviosoYMental || prevData.nerviosoYMental,
-      extremidades: dato.extremidades || prevData.extremidades,
-      neurologicoYPsiquico: dato.neurologicoYPsiquico || prevData.neurologicoYPsiquico
-    }));
-  }, [dato]);
+    console.log(dato);
+    // Check if dato is available and has the expected structure
+    if (dato && dato[0] && dato[1]) {
+      try {
+        setFormData({
+          id: dato[0].id || 0,
+          Nombre: dato[0].Nombre || "",
+          Servicio: dato[0].Servicio || "",
+          sexo: dato[0].sexo || "",
+          fechaN: dato[0].fechaN || "",
+          estadoC: dato[0].estadoC || "",
+          Ocupa: dato[0].Ocupa || "",
+          Lugar: dato[0].Lugar || "",
+          Ubicacion: dato[0].Ubicacion || "",
+          fechaIngreso: dato.fechaIngreso || "",
+          informacionAdicional: dato[1].infoAdd || "",
+          motivoIngreso: dato[1].motivoIngreso || "",
+          enfermedadActual: dato[1].enfermedadAct || "",
+          diagnosticoProvisional: dato[1].diagnosPro || "",
+          diagnosticoServicio: dato[1].diagnoServ || "",
+          nuevaNotaEvalua: '',
+          NotaEvalua: dato[1].nota ? dato[1].nota.map((n: any) => ({ id: n.id, Nota: n.Nota })) : [],
+          osteomuscular: (dato[1].OSTEOMUSCULAR) ? dato[1].OSTEOMUSCULAR.split(",") : [],
+          nerviosoYMental: (dato[1].NERVIOSOMENTAL) ? dato[1].NERVIOSOMENTAL.split(",") : [],
+          extremidades: (dato[1].EXTREMIDADES) ? dato[1].EXTREMIDADES.split(",") : [],
+          neurologicoYPsiquico: (dato[1].NEUROLÓGICOPSÍQUICO) ? dato[1].NEUROLÓGICOPSÍQUICO.split(",") : [],
+          idH: dato[1].id || 0,
+          EGRESO: dato[0].egreso || ''
+        })
+      } catch (error) {
+        console.error("Error setting form data:", error)
+      }
+    }
+    setLoading(false)
+  }, [dato])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [id]: value }));
-  };
+    if (!formData) return
+
+    const { name, id, value } = e.target
+    const fieldName = e.target.type === "radio" ? name : id
+    setFormData((prevData) => {
+      if (!prevData) return null
+      return { ...prevData, [fieldName]: value }
+    })
+  }
 
   const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
-    setFormData(prevData => {
-      const currentValues = prevData[name as keyof FormData] as string[];
+    if (!formData) return
+
+    setFormData((prevData) => {
+      if (!prevData) return null
+
+      const currentValues = prevData[name as keyof FormData] as string[]
       if (checked) {
-        return { ...prevData, [name]: [...currentValues, value] };
+        return { ...prevData, [name]: [...currentValues, value] }
       } else {
-        return { ...prevData, [name]: currentValues.filter(v => v !== value) };
+        return { ...prevData, [name]: currentValues.filter((v) => v !== value) }
       }
-    });
-  };
+    })
+  }
+  const handleNotaEvaluaChange = (id: number, value: string) => {
+    if (!formData) return
+
+    setFormData((prevData) => {
+      if (!prevData) return null
+      const newNotaEvalua = prevData.NotaEvalua.map((nota) => (nota.id === id ? { ...nota, Nota: value } : nota))
+      return { ...prevData, NotaEvalua: newNotaEvalua }
+    })
+  }
 
   const edad = (fecha: string): string => {
-    if (!fecha) return '';
-    const hoy = new Date();
-    const nacimiento = new Date(fecha);
-    let edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (!fecha) return ""
+    const hoy = new Date()
+    const nacimiento = new Date(fecha)
+    let edad = hoy.getFullYear() - nacimiento.getFullYear()
+    const mes = hoy.getMonth() - nacimiento.getMonth()
     if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-      edad--;
+      edad--
     }
-    return isNaN(edad) ? '' : edad.toString();
-  };
+    return isNaN(edad) ? "" : edad.toString()
+  }
 
   const guardar = async () => {
+    if (!formData) return
     console.log(formData);
-    
-    
-    axios.post('http://127.0.0.1:8000/api/Historia',formData)
-  };
+
+    const requiredFields = {
+      motivoIngreso: "Motivo de Ingreso",
+      enfermedadActual: "Enfermedad Actual",
+      diagnosticoProvisional: "Diagnóstico Provisional",
+    }
+
+    const emptyFields = Object.entries(requiredFields)
+      .filter(([key]) => !formData[key as keyof FormData] || (formData[key as keyof FormData] as string).trim() === "")
+      .map(([_, label]) => label)
+
+    if (emptyFields.length > 0) {
+      alert(`Los siguientes campos son obligatorios y están vacíos:\n${emptyFields.join("\n")}`)
+      return
+    }
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/Historia", formData)
+      console.log("Respuesta del servidor:", response.data)
+      alert("Formulario guardado con éxito")
+      //window.location.href="http://127.0.0.1:8000/fisioCita"
+    } catch (error) {
+      console.error("Error al guardar:", error)
+      alert("Error al guardar el formulario")
+    }
+  }
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="container py-4">
+        <h2>Cargando formulario...</h2>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error if data is not available
+  if (!formData) {
+    return (
+      <div className="container py-4">
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error al cargar los datos</h4>
+          <p>No se pudieron cargar los datos del formulario. Por favor, intente nuevamente.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="container py-4">
@@ -126,7 +200,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               <label htmlFor="Nombre">Nombre Completo</label>
             </div>
           </div>
-          
+
           <div className="col-md-3">
             <div className="form-floating">
               <input
@@ -150,8 +224,8 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                     className="form-check-input"
                     name="sexo"
                     id="masculino"
-                    value="masculino"
-                    checked={formData.sexo === 'M'}
+                    value="M"
+                    checked={formData.sexo === "M"}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="masculino">
@@ -164,8 +238,8 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                     className="form-check-input"
                     name="sexo"
                     id="femenino"
-                    value="femenino"
-                    checked={formData.sexo === 'F'}
+                    value="F"
+                    checked={formData.sexo === "F"}
                     onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="femenino">
@@ -275,7 +349,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
 
         {/* Sexta fila */}
         <div className="row g-3 mb-4">
-          <div className="col-md-12">
+          <div className="col-md-6">
             <div className="form-floating">
               <input
                 type="date"
@@ -289,6 +363,46 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               <label htmlFor="fechaIngreso">Fecha Primera Cita</label>
             </div>
           </div>
+          <div className="col-md-6">
+  <div className="card h-100">
+    <div className="card-body">
+      {/* Título del bloque */}
+      <p className="card-title text-center">Motivo de Alta</p>
+      
+      <div className="d-flex gap-4">
+        <div className="form-check">
+          <input
+            type="radio"
+            className="form-check-input"
+            name="EGRESO"
+            id="curacion"
+            value="CURACIÓN"
+            checked={formData.EGRESO === "CURACIÓN"}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="curacion">
+            CURACIÓN
+          </label>
+        </div>
+        <div className="form-check ms-5">
+          <input
+            type="radio"
+            className="form-check-input"
+            name="EGRESO"
+            id="mejoria"
+            value="MEJORÍA"
+            checked={formData.EGRESO === "MEJORÍA"}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor="mejoria">
+            MEJORÍA
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
 
         {/* Séptima fila */}
@@ -296,37 +410,59 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
           <div className="col-md-6">
             <div className="row g-3">
               <div className="col-12">
-                <CheckboxGroup 
-                  title="OSTEOMUSCULAR" 
-                  options={['Artralgias', 'Debilidad', 'Dolores óseos', 'Deformidades', 'Otros']} 
-                  name='osteomuscular'
+                <CheckboxGroup
+                  title="OSTEOMUSCULAR"
+                  options={["Artralgias", "Debilidad", "Dolores óseos", "Deformidades", "Otros"]}
+                  name="osteomuscular"
                   values={formData.osteomuscular}
                   onChange={handleCheckboxChange}
                 />
               </div>
               <div className="col-12">
-                <CheckboxGroup 
-                  title="NERVIOSO Y MENTAL" 
-                  options={['Convulsiones', 'Estática', 'Estado emocional', 'Marcha', 'Parálisis', 'Temblor', 'Tics', 'Tipo de personalidad', 'Otros']} 
-                  name='nerviosoYMental'
+                <CheckboxGroup
+                  title="NERVIOSO Y MENTAL"
+                  options={[
+                    "Convulsiones",
+                    "Estática",
+                    "Estado emocional",
+                    "Marcha",
+                    "Parálisis",
+                    "Temblor",
+                    "Tics",
+                    "Tipo de personalidad",
+                    "Otros",
+                  ]}
+                  name="nerviosoYMental"
                   values={formData.nerviosoYMental}
                   onChange={handleCheckboxChange}
                 />
               </div>
               <div className="col-12">
-                <CheckboxGroup 
-                  title="EXTREMIDADES" 
-                  name='extremidades'
-                  options={['Color', 'Edemas', 'Temblor', 'Deformidades', 'Úlceras', 'Varices','Otros']} 
+                <CheckboxGroup
+                  title="EXTREMIDADES"
+                  name="extremidades"
+                  options={["Color", "Edemas", "Temblor", "Deformidades", "Úlceras", "Varices", "Otros"]}
                   values={formData.extremidades}
                   onChange={handleCheckboxChange}
                 />
               </div>
               <div className="col-12">
-                <CheckboxGroup 
-                  title="NEUROLÓGICO Y PSÍQUICO" 
-                  name='neurologicoYPsiquico'
-                  options={['Sensibilidad objetiva', 'Movilidad', 'Reflectividad', 'Escritura', 'Tróficos','Marcha','Romberg','Orientación','Lenguaje' ,'Coordinación','Otros']} 
+                <CheckboxGroup
+                  title="NEUROLÓGICO Y PSÍQUICO"
+                  name="neurologicoYPsiquico"
+                  options={[
+                    "Sensibilidad objetiva",
+                    "Movilidad",
+                    "Reflectividad",
+                    "Escritura",
+                    "Tróficos",
+                    "Marcha",
+                    "Romberg",
+                    "Orientación",
+                    "Lenguaje",
+                    "Coordinación",
+                    "Otros",
+                  ]}
                   values={formData.neurologicoYPsiquico}
                   onChange={handleCheckboxChange}
                 />
@@ -340,7 +476,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 id="informacionAdicional"
                 name="informacionAdicional"
                 placeholder="Información Adicional"
-                style={{ minHeight: '200px' }}
+                style={{ minHeight: "200px" }}
                 value={formData.informacionAdicional}
                 onChange={handleChange}
               ></textarea>
@@ -350,96 +486,115 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
         </div>
 
         {/* Octava fila */}
-        <div className="row g-3 "><div className="row g-3 ">
-          <div className="col-md-4">
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                id="motivoIngreso"
-                name="motivoIngreso"
-                placeholder="MOTIVO(S) DE INGRESO"
-                style={{ height: '150px' }}
-                value={formData.motivoIngreso}
-                onChange={handleChange}
-              ></textarea>
-              <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO</label>
-            </div>
-          </div>
-          <div className="col-4">
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                id="enfermedadActual"
-                name="enfermedadActual"
-                placeholder="ENFERMEDAD ACTUAL"
-                style={{ height: '150px' }}
-                value={formData.enfermedadActual}
-                onChange={handleChange}
-              ></textarea>
-              <label htmlFor="enfermedadActual">ENFERMEDAD ACTUAL</label>
-            </div>
-          </div>
-          <div className="col-4">
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                id="diagnosticoProvisional"
-                name="diagnosticoProvisional"
-                placeholder="DIAGNÓSTICO PROVISIONAL"
-                style={{ height: '150px' }}
-                value={formData.diagnosticoProvisional}
-                onChange={handleChange}
-              ></textarea>
-              <label htmlFor="diagnosticoProvisional">DIAGNÓSTICO PROVISIONAL</label>
-            </div>
-          </div>
-        </div>
-
-        {/* Diagnóstico del Servicio */}
         <div className="row g-3 ">
-          <div className="col-12">
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                id="diagnosticoServicio"
-                name="diagnosticoServicio"
-                placeholder="DIAGNÓSTICO DEL SERVICIO"
-                style={{ height: '150px' }}
-                value={formData.diagnosticoServicio}
-                onChange={handleChange}
-              ></textarea>
-              <label htmlFor="diagnosticoServicio">DIAGNÓSTICO DEL SERVICIO</label>
+          <div className="row g-3 ">
+            <div className="col-md-4">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id="motivoIngreso"
+                  name="motivoIngreso"
+                  placeholder="MOTIVO(S) DE INGRESO"
+                  style={{ height: "150px" }}
+                  value={formData.motivoIngreso}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO</label>
+              </div>
+            </div>
+            <div className="col-4">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id="enfermedadActual"
+                  name="enfermedadActual"
+                  placeholder="ENFERMEDAD ACTUAL"
+                  style={{ height: "150px" }}
+                  value={formData.enfermedadActual}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor="enfermedadActual">ENFERMEDAD ACTUAL</label>
+              </div>
+            </div>
+            <div className="col-4">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id="diagnosticoProvisional"
+                  name="diagnosticoProvisional"
+                  placeholder="DIAGNÓSTICO PROVISIONAL"
+                  style={{ height: "150px" }}
+                  value={formData.diagnosticoProvisional}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor="diagnosticoProvisional">DIAGNÓSTICO PROVISIONAL</label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row g-3 mb-4 ">
-          <div className="col-12">
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                id="diagnosticoServicio"
-                name="diagnosticoServicio"
-                placeholder="DIAGNÓSTICO DEL SERVICIO"
-                style={{ height: '150px' }}
-                value={formData.diagnosticoServicio}
-                onChange={handleChange}
-              ></textarea>
-              <label htmlFor="diagnosticoServicio">Nota de Evaluacion</label>
-            </div>
-          </div>
-        </div>
 
-        {/* Botón de envío */}
-        <div className="row">
-          <div className="col-12">
-            <button onClick={guardar} className="btn btn-primary">
-              Guardar Formulario
-            </button>
+          {/* Diagnóstico del Servicio */}
+          <div className="row g-3 ">
+            <div className="col-12">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id="diagnosticoServicio"
+                  name="diagnosticoServicio"
+                  placeholder="DIAGNÓSTICO DEL SERVICIO"
+                  style={{ height: "150px" }}
+                  value={formData.diagnosticoServicio}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor="diagnosticoServicio">DIAGNÓSTICO DEL SERVICIO</label>
+              </div>
+            </div>
+          </div>
+          <div className="row g-3" >
+            <div className="col-12">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id={`nuevaNotaEvalua`}
+                  name={`nuevaNotaEvalua`}
+                  placeholder="DIAGNÓSTICO DEL SERVICIO"
+                  style={{ height: "150px" }}
+                  value={formData.nuevaNotaEvalua}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor={`nuevaNotaEvalua`}>Nueva Nota de Evaluación</label>
+              </div>
+            </div>
+          </div>
+          {formData.NotaEvalua.map((nota, index) => (
+            <div className="row g-3" key={nota.id}>
+              <div className="col-12">
+                <div className="form-floating">
+                  <textarea
+                    className="form-control"
+                    id={`NotaEvalua-${nota.id}`}
+                    name={`NotaEvalua-${nota.id}`}
+                    placeholder="DIAGNÓSTICO DEL SERVICIO"
+                    style={{ height: "150px" }}
+                    value={nota.Nota}
+                    onChange={(e) => handleNotaEvaluaChange(nota.id, e.target.value)}
+                  ></textarea>
+                  <label htmlFor={`NotaEvalua-${nota.id}`}>Nota de Evolución {index + 2}</label>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Botón de envío */}
+          <div className="row">
+            <div className="col-12">
+              <button onClick={guardar} className="btn btn-primary">
+                Guardar Formulario
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-  );
-};
+  )
+}
 

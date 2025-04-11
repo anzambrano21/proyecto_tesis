@@ -28,4 +28,5 @@ Route::apiResource("Cita",CitasControler::class);
 Route::post('/log',[UsuarioController::class,'Log']);
 Route::get('/all',[CitasControler::class,'Citas']);
 Route::get('/proxCit/{id}',[CitasControler::class,'ProxCit']);
+Route::get('/most/{id}',[HistoriasControler::class,'mostrar']);
 Route::apiResource("Material",AsugMatController::class);

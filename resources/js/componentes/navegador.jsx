@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 export const Navegador = () => {
     const example = useContext(Exaplecontect)
-    
 
-    
+
+
     return (
         <header className="bgprimario py-1 px-6">
             <div className="contenedor">
@@ -16,10 +16,11 @@ export const Navegador = () => {
                         <nav>
                             <ul className="nav justify-content-end">
                                 <li>
-                                    <a href="/conte" className="nav-link secundario">Contenido</a>
+                                    <a href="/" className="nav-link secundario ">Inicio</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="/" className="nav-link secundario ">Inicio</a>
+                                    <a href="/conte" className="nav-link secundario">Contenido</a>
+
                                 </li>
                                 <li className="nav-item">
                                     <a href="/Citas" className="nav-link secundario">Citas</a>
@@ -29,7 +30,7 @@ export const Navegador = () => {
                                     <a href={(Object.keys(example.datos).length > 0) ? "/Usuario" : "/InicioSecion"} className="nav-link secundario">{(Object.keys(example.datos).length > 0) ? "Usuario" : "Inicio Sesion"}</a>
                                 </li>
 
-                                
+
 
                             </ul>
                         </nav>

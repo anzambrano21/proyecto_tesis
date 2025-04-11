@@ -3,9 +3,11 @@ import { Footer } from "../componentes/Footer.jsx";
 import { TablaCont } from "../componentes/TablaConte.jsx";
 import { TablaUser } from "../componentes/tablaUsuario.jsx";
 import { Contenido } from "../componentes/Contenido.jsx";
-import { useState, useEffect } from "react"
+import { useState, useEffect,useContext } from "react"
 import { Alert } from 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import  { Exaplecontect } from "../context/contexto"
 export const AsignarCont = () => {
+    const example = useContext(Exaplecontect)
     const [Conteni, setContenido] = useState()
     const [Conteniuser, setContenidouser] = useState([])
     const [usuario, setusuario] = useState([])
@@ -88,7 +90,10 @@ export const AsignarCont = () => {
             Alert('Error fetching data:', error);
         }
     };
-
+    if(Object.keys(example.datos).length==0 || example.datos.Rol=='paciente'){
+        window.location.href="http://127.0.0.1:8000/"
+        return
+    }
 
 
     return (
@@ -104,9 +109,9 @@ export const AsignarCont = () => {
                         <div className="col-md mb-4 mb-md-0">
                             <TablaUser data={usuario} funcion={SelecUser} />
                         </div>
-                        <div className="col-md-6 mb-4 mb-md-0">
+                        <div className="col-md-6 mb-4 mb-md-0 scroll ">
                             {Conteni ? (
-                                <div>
+                                <div className=''>
                                     <Contenido registro={Conteni} />
                                     <button
                                         type="submit"

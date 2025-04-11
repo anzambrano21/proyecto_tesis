@@ -242,8 +242,8 @@ $neuro=[
             </div>
             <div class="form-number">
                 Forma 15-10B<br>
-                HISTORIA No.
-                <div class="historia-no"></div>
+                HISTORIA No. {{$data->id}}
+                
             </div>
         </div>
 
@@ -294,10 +294,22 @@ $neuro=[
 
         <div class="section-title">DIAGNÓSTICO PROVISIONAL</div>
         <div class="dotted-line">{{$data->diagnosPro}}</div>
-
+        @if($data->egreso=='MEJORÍA')
+        <div class="discharge-options">
+            EGRESO POR: CURACIÓN:<span class="checkbox "></span> MEJORÍA:<span class="checkbox checked">
+        </div>
+        @elseif($data->egreso=='CURACIÓN')
+        <div class="discharge-options">
+            EGRESO POR: CURACIÓN:<span class="checkbox checked"></span> MEJORÍA:<span class="checkbox">
+        </div>
+       
+        @else
         <div class="discharge-options">
             EGRESO POR: CURACIÓN:<span class="checkbox"></span> MEJORÍA:<span class="checkbox">
         </div>
+       
+        @endif
+        
         <div class="note text-right">(SI CONTRA OPINIÓN MÉDICA, HACERLE FIRMAR AL DORSO)</div>
 
         <div class="section-title">DIAGNÓSTICO CLÍNICO FINAL:</div>
@@ -316,7 +328,7 @@ $neuro=[
             <div class="main-title">HISTORIA CLINICA</div>
             <div>PARTE II</div>
         </div>
-        <div>Historia No.<span class="input-field"></span></div>
+        <div class="form-number">Historia No. {{$data->id}}</div>
     </div>
 
     <table>
@@ -461,6 +473,27 @@ $neuro=[
 
 
 
+    </div>
+    <div class="NotasEvalua">
+        
+    @foreach($data->nota as $item)
+    <div class="header">
+            
+            <div class="title-section">
+
+                <div class="main-title">Nota de Evaluacion</div>
+                
+            </div>
+            <div class="form-number">
+                
+                
+            <div >{{Carbon::parse($item->created_at)->toDateString()}}</div>
+            <div >{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
+            </div>
+        </div>
+        <div>{{$item->Nota}}</div>
+    
+    @endforeach
     </div>
 </body>
 </html>

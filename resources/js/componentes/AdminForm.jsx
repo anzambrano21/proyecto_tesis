@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect,useContext  } from "react"
 import axios from "axios"
 
 const DAYS_OF_WEEK = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
 export const FormDatAdmin = () => {
+
   const [selectedDays, setSelectedDays] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -37,8 +38,10 @@ export const FormDatAdmin = () => {
           Direccion: response.data.Direccion || "",
           Telefono: response.data.Telefono || "",
           Correo: response.data.Correo || "",
-          Dias: Array.isArray(response.data.Dias) ? response.data.Dias : [],
+          Dias: response.data.Dias ? response.data.Dias.split(',') : []
         }
+        console.log(sanitizedData);
+        
 
         setDatos(sanitizedData)
 
@@ -57,6 +60,7 @@ export const FormDatAdmin = () => {
   }, [])
 
   const handleDayChange = (day) => {
+    
     setSelectedDays((prevSelectedDays) =>
       prevSelectedDays.includes(day) ? prevSelectedDays.filter((d) => d !== day) : [...prevSelectedDays, day],
     )
@@ -96,8 +100,10 @@ export const FormDatAdmin = () => {
         ...datos,
         dias: selectedDays.join(","),
       }
+      console.log(selectedDays);
+      
 
-      console.log("Datos:", datosToSend)
+
       try {
         let res = await axios.put(`http://127.0.0.1:8000/api/Insta/${0}`, datosToSend)
         if(res.data.length>0){
@@ -154,6 +160,7 @@ export const FormDatAdmin = () => {
       </div>
     )
   }
+
 
   return (
     <div className="container py-4">

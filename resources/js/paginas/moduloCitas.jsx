@@ -38,7 +38,14 @@ export const Citas = () => {
             }
         }; fetchAppointments();
     }, []);
-   
+    
+    
+    if(Object.keys(example.datos).length==0){
+        alert("Deves de Iniciar Sesióon")
+        window.location.href="http://127.0.0.1:8000/"
+        return
+    }
+
     
 
     return (

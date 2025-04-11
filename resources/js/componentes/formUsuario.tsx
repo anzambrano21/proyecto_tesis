@@ -111,7 +111,7 @@ export const FormUser = ({onClick,cambios}) => {
                         <button className="btn btn-primary w-100" type="submit">Guardar</button>
                     </div>
                     <div className=" col-3 mt-4">
-                        <button className="btn btn-danger w-100" onClick={onClick}>Cerrar Sesion</button>
+                        <button className="btn btn-danger w-100" onClick={onClick}>Cerrar Sesión</button>
                     </div>
                 </div>
 

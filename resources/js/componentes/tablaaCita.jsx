@@ -18,7 +18,7 @@ export const TablaCita = ({onSelect,data}) => {
         <tbody>
           {data.map((row, index) => (
             <tr key={index} onClick={() => onSelect(row)}>
-              <td>{index}</td>
+              <td>{index+1}</td>
               <td>{row.user.Nombre}</td>
               <td>{row.fecha}</td>
               <td>{row.hora}</td>

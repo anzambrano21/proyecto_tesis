@@ -1,12 +1,10 @@
 import { parseISO, format } from 'date-fns';
-
-export const TablaHistoria = ({ data }) => {
-
-  const handleRowClick = (url) => {
-    console.log(url);
-    
-    // Abrir una nueva ventana o pestaña con la dirección específica
-    window.open(url, '_blank');
+import React, { useState } from 'react';
+export const TablaHistoria = ({ data, funcion }) => {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const handleRowClick = (index, row) => {
+    setSelectedIndex(index);
+    funcion(row);
   };
 
   return (
@@ -29,8 +27,8 @@ export const TablaHistoria = ({ data }) => {
             const timePart = format(dateObject, 'hh:mm:ss a');
 
             return (
-              <tr key={index} onClick={() => handleRowClick(`http://127.0.0.1:8000/HitoriaPDF?H=${row.id}`)}>
-                <td>{index}</td>
+              <tr key={index} onClick={() => handleRowClick(index,row)} className={selectedIndex === index ? 'table-success' : ''}>
+                <td>{index+1}</td>
                 <td>{datePart}</td>
                 <td>{timePart}</td>
               </tr>

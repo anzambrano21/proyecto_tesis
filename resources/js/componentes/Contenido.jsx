@@ -5,7 +5,7 @@ export const Contenido=({registro})=>{
     console.log(registro);
     
     return(
-        <div className="container py-4">
+        <div className="container py-4 ">
         {/* Topic Header - Always visible */}
         <button
             onClick={() => setIsExpanded(!isExpanded)}
@@ -24,7 +24,7 @@ export const Contenido=({registro})=>{
                     }}
                 />
             </div>
-            <h2 className="h4 mb-0">Num Con</h2>
+            <h2 className="h4 mb-0">{registro.material.Titulo}</h2>
             
         </button>
 
@@ -42,7 +42,7 @@ export const Contenido=({registro})=>{
                     <div className="bg-light p-3 rounded mb-4">
                         <p className="mb-0">
                             
-                            <strong>Objetivo.</strong>
+                            <strong>Objetivo: </strong>
                             {registro.material.COntenido}
                         </p>
                     </div>
@@ -51,7 +51,7 @@ export const Contenido=({registro})=>{
                     <div className="mb-4">
                         <a href={"http://localhost:5173/public/archivos/"+registro.material.Archivo} className="d-flex align-items-center text-decoration-none text-success mb-2 gap-2">
                             <FileText size={20} />
-                            <span>material_de_consulta_Unidad_IV</span>
+                            <span>{registro.material.Archivo}</span>
                         </a>
                         
                     </div>

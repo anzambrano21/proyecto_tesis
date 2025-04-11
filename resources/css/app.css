@@ -145,3 +145,26 @@ thead, tbody tr {
   table-layout: fixed;
   
 }
+.scroll {
+  max-height: 550px; /* Ajusta según tus necesidades */
+  overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el alto */
+  overflow-x: hidden; /* Oculta el scroll horizontal */
+  border: 1px solid #ccc; /* Opcional: para visualizar el área */
+  padding: 10px; /* Opcional: para mejorar el espaciado interno */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+.scroll::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #E0E0E0; /* Color de fondo del track */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #130f0f30; /* Color de la barra de desplazamiento */
+  border-radius: 10px; /* Bordes redondeados */
+  border: 2px solid #E0E0E0; /* Espaciado alrededor del scroll */
+}
+

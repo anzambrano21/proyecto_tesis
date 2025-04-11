@@ -93,14 +93,14 @@ class CitasControler extends Controller
         
     }
     public function ProxCit($id) {
-        $ultimaCita = Citas::where('IdUser', $id)->latest()->first();
+        $ultimaCita = Citas::where('IdUser', $id)->whereDate('fecha', '>=', now()->toDateString())->first();
 
         // Verificar si se encontró una cita
         if ($ultimaCita) {
             return "Su proxima cita es el dia ".$ultimaCita->fecha;
         } else {
             // Manejar el caso donde no se encontró ninguna cita
-        return response()->json(['message' => 'No se encontró ninguna cita para este usuario.'], 404);
+        return "No tiene proxima Cita";
         }
         
     }

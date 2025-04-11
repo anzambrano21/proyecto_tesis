@@ -1,9 +1,11 @@
 import { Navegador } from '../componentes/navegador.jsx'
 import { Footer } from "../componentes/Footer.jsx";
 import { TablaCont } from "../componentes/TablaConte.jsx";
-import { useState,useEffect } from "react"
+import { useState,useEffect,useContext  } from "react"
 import axios from 'axios';
+import  { Exaplecontect } from "../context/contexto"
 export const CrearConte = () => {
+    const example = useContext(Exaplecontect)
     const [file, setFile] = useState(null)
     const [dragActive, setDragActive] = useState(false)
     const [Conte, setConte] = useState([])
@@ -87,6 +89,10 @@ export const CrearConte = () => {
         }
 
         
+    }
+    if(Object.keys(example.datos).length==0 || example.datos.Rol=='paciente'){
+        window.location.href="http://127.0.0.1:8000/"
+        return
     }
     return (
         <div>

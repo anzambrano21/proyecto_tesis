@@ -23,13 +23,20 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
   const [Pago, setpago] = useState('TPago')
   const [selectedValue, setSelectedValue] = useState('');
   const handleDateChange = async (date) => {
-
-    const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-    let response = await axios.get(`http://127.0.0.1:8000/api/Cita/${date.toLocaleDateString('sv-SE')}`)
-
-    setHora(response.data)
+    // Resetea la hora a las 00:00:00 para evitar saltos de día
+    const adjustedDate = new Date(date.setHours(0, 0, 0, 0));
+    
+    // Realiza la solicitud al servidor con el formato adecuado
+    let response = await axios.get(`http://127.0.0.1:8000/api/Cita/${adjustedDate.toISOString().split('T')[0]}`);
+    
+    // Guarda la respuesta del servidor
+    setHora(response.data);
+  
+    // Guarda la fecha ajustada correctamente
     setFechaSeleccionada(adjustedDate);
   };
+  
+
 
 
   const colorearDia = (date) => {
@@ -47,7 +54,7 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     const selectedTime = event.target.value;
 
 
-    if (hora.includes(selectedTime)) {
+    if (hora.includes(selectedTime) || selectedTime=='' ) {
       alert('Esta hora no está disponible. Por favor, selecciona otra hora.');
       setTime(''); // Restablece el valor del input 
     } else { setTime(selectedTime); }
@@ -61,27 +68,41 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     setdirec(direc.target.value)
   }
   const pago = (event) => {
-    setpago(event.target.value)
+    if(event.target.value=''){
+      setpago(event.target.value)
+    }
+    
 
 
   }
   const Guardar = async () => {
 
     fechaSeleccionada.setDate(fechaSeleccionada.getDate());
+
     const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
+    console.log(formattedDate);
     let dato = {
       dia: formattedDate,
       hora: time,
       direc: direc,
       pago: Pago,
       tipCit: selectedValue,
-      id: example['datos'].id
-
+      id: example['datos']?.id
     };
+    
+    // Verificar si algún valor es nulo o indefinido
+    const valoresInvalidos = Object.entries(dato).filter(([clave, valor]) => (valor == ''|| valor == null));
+    
+    if (valoresInvalidos.length > 0) {
+      alert('Rellena los Campos para Guardar su Cita ')
+    } else {
+      console.log("Todos los valores son válidos:", dato);
+    }
+    
     let response = await axios.post('http://127.0.0.1:8000/api/Cita', dato)
     if (response.data == 'exito') {
       alert('Cita Guardada con Exito')
-      window.location.href = "http://127.0.0.1:8000/"
+      //window.location.href = "http://127.0.0.1:8000/"
     }
 
   }
@@ -102,22 +123,25 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
           dayClassName={() => 'text-center'}
           calendarClassName="border rounded-lg shadow-lg"
           wrapperClassName="w-100"
-          formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 1)}
+          formatWeekDay={(nameOfDay) => nameOfDay[0]}
           renderDayContents={(day, date) => (
             <div
-              className="w-100 h-100 d-flex align-items-center justify-content-center"
-              style={colorearDia(date)}>
+              className="d-flex align-items-center justify-content-center w-100 h-100"
+              style={colorearDia(date)}
+            >
               {day}
             </div>
           )}
           filterDate={filterDates}
         />
+
       </div>
       <div className="Formulario col-4 justify-content-start">
         <div className="row">
           <div className="col-5">
             <label htmlFor="hora">Selecciona una hora:</label>
             <select className="form-control" name="hora" id="hora" onChange={handleTimeChange}>
+              <option value="">Selecione</option>
               <option value="08:00">8 am</option>
               <option value="09:00">9 am</option>
               <option value="10:00">10 am</option>
@@ -136,6 +160,7 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
           </div>
           <div className="col-5"> <label htmlFor="Pago">Forma de Pago</label>
             <select name="Pago" className="form-control" onChange={pago} id="Pago">
+              <option value="">Seleccione</option>
               <option value="TPago">Transferencia</option>
               <option value="PagoM">Pago Móvil</option>
               <option value="Efectivo">Efectivo</option>

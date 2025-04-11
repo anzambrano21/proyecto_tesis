@@ -40,7 +40,7 @@ class InstagramControl extends Controller
             'Direccion'=> $datFi->Direccion,
             'Telefono'=> $datFi->Telefono,
             'Correo'=> $datFi->Correo,
-            'Dias'=>explode(',', $datFi->dias)
+            'Dias'=>$datFi->dias
         ];
     }
 
@@ -69,6 +69,9 @@ class InstagramControl extends Controller
     public function show(string $id)
     {
         $datFi = DatFisio::first();
+        if(is_null($datFi->dias)){
+            return null;
+        }
         return $this->convertirDias($datFi);
     }
 
@@ -104,35 +107,49 @@ class InstagramControl extends Controller
         
         Citas::whereIn('fecha', $request->fechas)->delete();
         }else{
-            $citas = Citas::select('fecha')->get();
+                $citas = Citas::select('fecha')->get();
 
-        // Lista para almacenar las fechas que coinciden
-        $fechasCoincidentes = [];
+                // Lista para almacenar las fechas que coinciden
+                $fechasCoincidentes = [];
 
-        foreach ($citas as $cita) {
-    // Convertir la fecha al formato Carbon para obtener el día de la semana
-            $fecha = Carbon::parse($cita->fecha);
-            $diaDeLaSemana = $fecha->format('l'); // Obtener el día de la semana en inglés
+            foreach ($citas as $cita) {
+        // Convertir la fecha al formato Carbon para obtener el día de la semana
+                    $fecha = Carbon::parse($cita->fecha);
+                $diaDeLaSemana = $fecha->format('l'); // Obtener el día de la semana en inglés
 
-            // Convertir el día de la semana al español
-            $diaEnEspañol = [
-                'Monday' => 'Lunes',
-                'Tuesday' => 'Martes',
-                'Wednesday' => 'Miercoles',
-                'Thursday' => 'Jueves',
-                'Friday' => 'Viernes',
-                'Saturday' => 'Sabado',
-                'Sunday' => 'Domingo'
-            ][$diaDeLaSemana];
+                // Convertir el día de la semana al español
+                $diaEnEspañol = [
+                    'Monday' => 'Lunes',
+                    'Tuesday' => 'Martes',
+                    'Wednesday' => 'Miércoles',
+                    'Thursday' => 'Jueves',
+                    'Friday' => 'Viernes',
+                    'Saturday' => 'Sábado',
+                    'Sunday' => 'Domingo'
+                ][$diaDeLaSemana];
 
-            // Comprobar si el día de la semana está en la lista
-            if (in_array($diaEnEspañol, explode(',', $request->dias)) && !in_array($cita->fecha, $fechasCoincidentes)) {
-                // Agregar la fecha a la lista de fechas coincidentes
-                $fechasCoincidentes[] = $cita->fecha;
+                // Comprobar si el día de la semana está en la lista
+                if (in_array($diaEnEspañol, explode(',', $request->dias)) && !in_array($cita->fecha, $fechasCoincidentes)) {
+                    // Agregar la fecha a la lista de fechas coincidentes
+                    $fechasCoincidentes[] = $cita->fecha;
+                }
             }
-        }
         if(count($fechasCoincidentes)>0){
             return $fechasCoincidentes;
+        }else{
+            $insta = Instagram::first();
+            $datFi = DatFisio::first();
+            $insta->IDuser = $request->IDuser;
+            $insta->Token = $request->Token;
+            $datFi->Nombre = $request->Nombre;
+            $datFi->Apellido = $request->Apellido;
+            $datFi->Direccion = $request->Direccion;
+            $datFi->Telefono = $request->Telefono;
+            $datFi->Correo = $request->Correo;
+            $datFi->dias=$request->dias;
+            $insta->save();
+            $datFi->save();
+            
         }
         }
 

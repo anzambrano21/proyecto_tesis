@@ -7,7 +7,10 @@ import ExamplecontexProvier, { Exaplecontect } from "../context/contexto"
 import axios from 'axios';
 export const ModuloUsuario=()=>{
     const example = useContext(Exaplecontect)
-    console.log(example);
+    if(Object.keys(example.datos).length==0){
+        window.location.href="http://127.0.0.1:8000/"
+        return
+    }
     
     const cerrar=()=>{
         example.setDatos({})
