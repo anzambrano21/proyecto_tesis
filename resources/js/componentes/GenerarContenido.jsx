@@ -18,7 +18,7 @@ export const GeneralCont = ({id}) => {
         fetchAppointments();
     }, []);
     return (
-        <div>
+        <div className='scrollC'>
             {Conte.map((row, index) => (
             <Contenido key={index} registro={row}/>
           ))}

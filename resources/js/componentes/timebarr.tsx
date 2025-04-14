@@ -77,33 +77,52 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
   }
   const Guardar = async () => {
 
-    fechaSeleccionada.setDate(fechaSeleccionada.getDate());
+// Actualiza la fecha seleccionada
+fechaSeleccionada.setDate(fechaSeleccionada.getDate());
 
-    const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
-    console.log(formattedDate);
-    let dato = {
-      dia: formattedDate,
-      hora: time,
-      direc: direc,
-      pago: Pago,
-      tipCit: selectedValue,
-      id: example['datos']?.id
-    };
-    
-    // Verificar si algún valor es nulo o indefinido
-    const valoresInvalidos = Object.entries(dato).filter(([clave, valor]) => (valor == ''|| valor == null));
-    
-    if (valoresInvalidos.length > 0) {
-      alert('Rellena los Campos para Guardar su Cita ')
-    } else {
-      console.log("Todos los valores son válidos:", dato);
-    }
-    
-    let response = await axios.post('http://127.0.0.1:8000/api/Cita', dato)
-    if (response.data == 'exito') {
-      alert('Cita Guardada con Exito')
-      //window.location.href = "http://127.0.0.1:8000/"
-    }
+// Formatea la fecha en formato "YYYY-MM-DD"
+const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
+
+// Validación de la hora seleccionada
+if (!time || hora.includes(time)) {
+  alert("La Hora está Ocupada. Seleccione Otra Hora.");
+  return;
+}
+
+// Construcción del objeto de datos para la cita
+const datosCita = {
+  dia: formattedDate,
+  hora: time,
+  direc: direc,
+  pago: Pago,
+  tipCit: selectedValue,
+  id: example['datos'].id, // Usa "null" como fallback si el ID no existe
+};
+
+// Verifica si hay campos inválidos
+const camposInvalidos = Object.entries(datosCita).filter(
+  ([_, valor]) => !valor // Verifica valores nulos, vacíos o "falsy"
+);
+
+if (camposInvalidos.length > 0) {
+  alert("Rellena los Campos para Guardar su Cita.");
+  return;
+}
+
+// Intenta realizar la solicitud
+try {
+  const response = await axios.post('http://127.0.0.1:8000/api/Cita', datosCita);
+  
+  if (response.data === 'exito') {
+    alert('Cita Guardada con Éxito');
+    // Redirigir a otra página, si es necesario
+    // window.location.href = "http://127.0.0.1:8000/";
+  }
+} catch (error) {
+  console.error("Error al guardar la cita:", error);
+  alert('Ocurrió un error al intentar guardar la cita.');
+}
+
 
   }
   const filterDates = (date) => {

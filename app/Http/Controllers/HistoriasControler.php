@@ -32,62 +32,76 @@ class HistoriasControler extends Controller
     public function store(Request $request)
     {
         
-        if (count($request['NotaEvalua'])>0) {
-            
-            $historia=Historias::find($request->idH);
-            $historia->NEUROLÓGICOPSÍQUICO=implode(',',$request['neurologicoYPsiquico']);
-            $historia->NombreArch=$request['Nombre'];
-            $historia->IdUser=$request['id'];
-            $historia->servicio=$request['Servicio'];
-            $historia->estadoC=$request['estadoC'];
-            $historia->egreso=$request['EGRESO'];
-            $historia->ocupacion=$request['Ocupa'];
-            $historia->direccion=$request['Ubicacion'];
-            $historia->OSTEOMUSCULAR=implode(',',$request['osteomuscular']);
-            $historia->NERVIOSOMENTAL=implode(',',$request['nerviosoYMental']);
-            $historia->EXTREMIDADES=implode(',',$request['extremidades']);
-            $historia->infoAdd=$request['informacionAdicional'];
-            $historia->motivoIngreso=$request['motivoIngreso'];
-            $historia->enfermedadAct=$request['enfermedadActual'];
-            $historia->diagnosPro=$request['diagnosticoProvisional'];
-            $historia->diagnoServ=$request['diagnosticoServicio'];
+        // Validar la existencia de 'NotaEvalua'
+        if ( $request->idH!=0) {
+            $historia = Historias::find($request->idH);
+    
+            // Actualizar los datos principales de la historia clínica
+            $historia->fill([
+                'NEUROLÓGICOPSÍQUICO' => implode(',', $request['neurologicoYPsiquico']),
+                'NombreArch' => $request['Nombre'],
+                'IdUser' => $request['id'],
+                'servicio' => $request['Servicio'],
+                'estadoC' => $request['estadoC'],
+                'egreso' => $request['EGRESO'],
+                'ocupacion' => $request['Ocupa'],
+                'direccion' => $request['Ubicacion'],
+                'OSTEOMUSCULAR' => implode(',', $request['osteomuscular']),
+                'NERVIOSOMENTAL' => implode(',', $request['nerviosoYMental']),
+                'EXTREMIDADES' => implode(',', $request['extremidades']),
+                'infoAdd' => $request['informacionAdicional'],
+                'motivoIngreso' => $request['motivoIngreso'],
+                'enfermedadAct' => $request['enfermedadActual'],
+                'diagnosPro' => $request['diagnosticoProvisional'],
+                'diagnoServ' => $request['diagnosticoServicio'],
+            ]);
             $historia->save();
-            for ($i = 0; $i < count($request['NotaEvalua']); $i++) {
-                $nota=notaEvalua::find($request['NotaEvalua'][$i]["id"]);
-                $nota->Nota=$request['NotaEvalua'][$i]["Nota"];
-                $nota->save();
+    
+            // Actualizar las notas de evaluación
+            foreach ($request['NotaEvalua'] as $notaEvalua) {
+                if (!empty($notaEvalua["Nota"])) {
+                    $nota = notaEvalua::find($notaEvalua["id"]);
+                    $nota->Nota = $notaEvalua["Nota"];
+                    $nota->save();
+                }
             }
-        }else{
-            $fechaNacimiento = $request['fechaN']; // Fecha de nacimiento del request 
-            $fechaActual = Carbon::now(); // Fecha actual usando Carbon 
-            $fechaNacimientoDT = Carbon::parse($fechaNacimiento); // Convertir la fecha de nacimiento a un objeto Carbon 
-            $edad = $fechaActual->diffInYears($fechaNacimientoDT);
+        } else {
+            // Calcular la edad
+            $fechaNacimiento = Carbon::parse($request['fechaN']);
+            $edad = Carbon::now()->diffInYears($fechaNacimiento);
+    
+            // Crear una nueva historia clínica
             Historias::create([
-            'NEUROLÓGICOPSÍQUICO'=>implode(',',$request['neurologicoYPsiquico']),
-            'egreso'=>$request['EGRESO'],
-            'NombreArch'=>$request['Nombre'],
-            'IdUser'=>$request['id'],
-            'servicio'=>$request['Servicio'],
-            'edad'=> $edad,//
-            'estadoC'=>$request['estadoC'],
-            'ocupacion'=>$request['Ocupa'],
-            'direccion'=>$request['Ubicacion'],
-            'OSTEOMUSCULAR'=>implode(',',$request['osteomuscular']),
-            'NERVIOSOMENTAL'=>implode(',',$request['nerviosoYMental']),
-            'EXTREMIDADES'=>implode(',',$request['extremidades']),
-            'infoAdd'=>$request['informacionAdicional'],
-            'motivoIngreso'=>$request['motivoIngreso'],
-            'enfermedadAct'=>$request['enfermedadActual'],
-            'diagnosPro'=>$request['diagnosticoProvisional'],
-            'diagnoServ'=>$request['diagnosticoServicio'],
-        ]);
+                'NEUROLÓGICOPSÍQUICO' => implode(',', $request['neurologicoYPsiquico']),
+                'egreso' => $request['EGRESO'],
+                'NombreArch' => $request['Nombre'],
+                'IdUser' => $request['id'],
+                'servicio' => $request['Servicio'],
+                'edad' => $edad,
+                'estadoC' => $request['estadoC'],
+                'ocupacion' => $request['Ocupa'],
+                'direccion' => $request['Ubicacion'],
+                'OSTEOMUSCULAR' => implode(',', $request['osteomuscular']),
+                'NERVIOSOMENTAL' => implode(',', $request['nerviosoYMental']),
+                'EXTREMIDADES' => implode(',', $request['extremidades']),
+                'infoAdd' => $request['informacionAdicional'],
+                'motivoIngreso' => $request['motivoIngreso'],
+                'enfermedadAct' => $request['enfermedadActual'],
+                'diagnosPro' => $request['diagnosticoProvisional'],
+                'diagnoServ' => $request['diagnosticoServicio'],
+            ]);
         }
-        $idHist=Historias::where("IdUser",  $request->id)->latest()->first();
-        notaEvalua::create([
-            'IdHist' => $idHist->id,
-            'Nota' => $request['nuevaNotaEvalua']
-        ]);
+    
+        // Crear una nueva nota de evaluación, si existe
+        $idHist = Historias::where('IdUser', $request->id)->latest()->first();
+        if (!empty($request['nuevaNotaEvalua'])) {
+            notaEvalua::create([
+                'IdHist' => $idHist->id,
+                'Nota' => $request['nuevaNotaEvalua'],
+            ]);
+        }
     }
+    
     /**
      * Display the specified resource.
      */

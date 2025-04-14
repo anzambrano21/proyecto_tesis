@@ -110,6 +110,7 @@ export const FormDatAdmin = () => {
           setCitas(res.data)
         }else{
           alert("Datos Actualizados")
+          window.location.href="http://127.0.0.1:8000/conte"
         }
         
       } catch (error) {
@@ -133,7 +134,7 @@ export const FormDatAdmin = () => {
         axios.put(`http://127.0.0.1:8000/api/Insta/${1}`, datosToSend)
         alert("Datos Actualizados")
         setCitas([])
-      
+        window.location.href="http://127.0.0.1:8000/conte"
       } catch (error) {
         console.error("Error al actualizar los datos:", error)
         alert("Hubo un error al actualizar los datos.")

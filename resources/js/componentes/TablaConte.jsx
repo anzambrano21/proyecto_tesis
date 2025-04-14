@@ -4,8 +4,14 @@ export const TablaCont = ({ data, funcion }) => {
     const [selectedIndex, setSelectedIndex] = useState(null);
 
     const handleRowClick = (index, row) => {
-        setSelectedIndex(index);
-        funcion(row);
+        if(index==selectedIndex){
+            setSelectedIndex(null);
+            funcion(null);
+        }else{
+            setSelectedIndex(index);
+            funcion(row);
+        }
+
     };
 
     return (

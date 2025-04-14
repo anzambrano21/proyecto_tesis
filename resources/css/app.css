@@ -153,6 +153,16 @@ thead, tbody tr {
   padding: 10px; /* Opcional: para mejorar el espaciado interno */
   box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
 }
+.scrollC {
+  max-height: calc(100vh - 230px); /* Altura dinámica basada en la altura de la ventana */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #ccc;
+  padding: 15px;
+  box-sizing: border-box;
+  margin-bottom: 24px; /* Espacio para el footer, basado en el padding superior del footer */
+  position: relative; /* Asegura que el contenedor tenga un contexto de posicionamiento */
+}
 .scroll::-webkit-scrollbar {
   width: 8px; /* Ancho de la barra de desplazamiento */
 }

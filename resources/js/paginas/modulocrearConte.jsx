@@ -47,9 +47,15 @@ export const CrearConte = () => {
         }
     }
     const seleccionConte = (e) => {
-        document.getElementById('Titulo').value=e.Titulo
-        document.getElementById('motivoIngreso').value=e.COntenido
-        console.log(e);
+        if(e){
+            document.getElementById('Titulo').value=e.Titulo
+            document.getElementById('motivoIngreso').value=e.COntenido
+            console.log(e);
+        }else{
+            document.getElementById('Titulo').value=''
+            document.getElementById('motivoIngreso').value=''
+        }
+
         
     }
 
@@ -84,6 +90,8 @@ export const CrearConte = () => {
             .catch(error => {
                 console.error('Error al subir el archivo', error);
             });
+            alert('Guardado con Exito')
+            window.location.href="http://127.0.0.1:8000/conte"
         } catch (error) {
             
         }

@@ -31,11 +31,17 @@ export const AsignarCont = () => {
         fetchData();
     }, []);
     const SelecMate = (Mate) => {
-        let registro = {}
-        registro['material'] = Mate
-        console.log(Mate);
+        if(Mate){
+            let registro = {}
+            registro['material'] = Mate
+            console.log(Mate);
+    
+            setContenido(registro)
+            
+        }else{
+            setContenido()
+        }
 
-        setContenido(registro)
 
     }
     const SelecUser = async (User) => {
@@ -64,6 +70,7 @@ export const AsignarCont = () => {
 
 
             alert("Asignacion Completada")
+            window.location.href="http://127.0.0.1:8000/Asignar"
         } catch (error) {
             Alert('Error fetching data:', error);
         }
@@ -86,6 +93,7 @@ export const AsignarCont = () => {
 
 
             alert("material eliminado")
+            window.location.href="http://127.0.0.1:8000/Asignar"
         } catch (error) {
             Alert('Error fetching data:', error);
         }

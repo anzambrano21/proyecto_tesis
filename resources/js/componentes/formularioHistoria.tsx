@@ -32,6 +32,7 @@ interface FormData {
   osteomuscular: string[]
   nerviosoYMental: string[]
   extremidades: string[]
+  
   neurologicoYPsiquico: string[]
   idH: number
 }
@@ -64,13 +65,14 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
           diagnosticoProvisional: dato[1].diagnosPro || "",
           diagnosticoServicio: dato[1].diagnoServ || "",
           nuevaNotaEvalua: '',
+          
           NotaEvalua: dato[1].nota ? dato[1].nota.map((n: any) => ({ id: n.id, Nota: n.Nota })) : [],
           osteomuscular: (dato[1].OSTEOMUSCULAR) ? dato[1].OSTEOMUSCULAR.split(",") : [],
           nerviosoYMental: (dato[1].NERVIOSOMENTAL) ? dato[1].NERVIOSOMENTAL.split(",") : [],
           extremidades: (dato[1].EXTREMIDADES) ? dato[1].EXTREMIDADES.split(",") : [],
           neurologicoYPsiquico: (dato[1].NEUROLÓGICOPSÍQUICO) ? dato[1].NEUROLÓGICOPSÍQUICO.split(",") : [],
           idH: dato[1].id || 0,
-          EGRESO: dato[0].egreso || ''
+          EGRESO: dato[1].egreso || ''
         })
       } catch (error) {
         console.error("Error setting form data:", error)
@@ -128,7 +130,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
 
   const guardar = async () => {
     if (!formData) return
-    console.log(formData);
+    
 
     const requiredFields = {
       motivoIngreso: "Motivo de Ingreso",
@@ -149,7 +151,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
       const response = await axios.post("http://127.0.0.1:8000/api/Historia", formData)
       console.log("Respuesta del servidor:", response.data)
       alert("Formulario guardado con éxito")
-      //window.location.href="http://127.0.0.1:8000/fisioCita"
+      window.location.href="http://127.0.0.1:8000/fisioCita"
     } catch (error) {
       console.error("Error al guardar:", error)
       alert("Error al guardar el formulario")
@@ -179,7 +181,8 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
       </div>
     )
   }
-
+  console.log(formData);
+  
   return (
     <div className="container py-4">
       <h2>Formulario Historias</h2>
