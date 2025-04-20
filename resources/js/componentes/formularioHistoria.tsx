@@ -10,6 +10,11 @@ interface NotaEvalua {
   Nota: string
 }
 
+interface Tratamiento {
+  id: number
+  Tratamiento: string
+}
+
 interface FormData {
   id: number
   Nombre: string
@@ -29,22 +34,20 @@ interface FormData {
   diagnosticoServicio: string
   nuevaNotaEvalua: string
   NotaEvalua: NotaEvalua[]
+  nuevaTratamiento: string
+  Tratamiento: Tratamiento[]
   osteomuscular: string[]
   nerviosoYMental: string[]
   extremidades: string[]
-  
   neurologicoYPsiquico: string[]
   idH: number
 }
 
 export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) => {
-
-
   const [loading, setLoading] = useState(true)
   const [formData, setFormData] = useState<FormData | null>(null)
 
   useEffect(() => {
-    console.log(dato);
     // Check if dato is available and has the expected structure
     if (dato && dato[0] && dato[1]) {
       try {
@@ -64,15 +67,18 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
           enfermedadActual: dato[1].enfermedadAct || "",
           diagnosticoProvisional: dato[1].diagnosPro || "",
           diagnosticoServicio: dato[1].diagnoServ || "",
-          nuevaNotaEvalua: '',
-          
+          nuevaNotaEvalua: "",
+          nuevaTratamiento: "",
+          Tratamiento: dato[1].tratamiento
+            ? dato[1].tratamiento.map((t: any) => ({ id: t.id, Tratamiento: t.Tratamiento }))
+            : [],
           NotaEvalua: dato[1].nota ? dato[1].nota.map((n: any) => ({ id: n.id, Nota: n.Nota })) : [],
-          osteomuscular: (dato[1].OSTEOMUSCULAR) ? dato[1].OSTEOMUSCULAR.split(",") : [],
-          nerviosoYMental: (dato[1].NERVIOSOMENTAL) ? dato[1].NERVIOSOMENTAL.split(",") : [],
-          extremidades: (dato[1].EXTREMIDADES) ? dato[1].EXTREMIDADES.split(",") : [],
-          neurologicoYPsiquico: (dato[1].NEUROLÓGICOPSÍQUICO) ? dato[1].NEUROLÓGICOPSÍQUICO.split(",") : [],
+          osteomuscular: dato[1].OSTEOMUSCULAR ? dato[1].OSTEOMUSCULAR.split(",") : [],
+          nerviosoYMental: dato[1].NERVIOSOMENTAL ? dato[1].NERVIOSOMENTAL.split(",") : [],
+          extremidades: dato[1].EXTREMIDADES ? dato[1].EXTREMIDADES.split(",") : [],
+          neurologicoYPsiquico: dato[1].NEUROLÓGICOPSÍQUICO ? dato[1].NEUROLÓGICOPSÍQUICO.split(",") : [],
           idH: dato[1].id || 0,
-          EGRESO: dato[1].egreso || ''
+          EGRESO: dato[1].egreso || "",
         })
       } catch (error) {
         console.error("Error setting form data:", error)
@@ -106,6 +112,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
       }
     })
   }
+
   const handleNotaEvaluaChange = (id: number, value: string) => {
     if (!formData) return
 
@@ -113,6 +120,18 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
       if (!prevData) return null
       const newNotaEvalua = prevData.NotaEvalua.map((nota) => (nota.id === id ? { ...nota, Nota: value } : nota))
       return { ...prevData, NotaEvalua: newNotaEvalua }
+    })
+  }
+
+  const handleTratamientoChange = (id: number, value: string) => {
+    if (!formData) return
+
+    setFormData((prevData) => {
+      if (!prevData) return null
+      const newTratamiento = prevData.Tratamiento.map((trat) =>
+        trat.id === id ? { ...trat, Tratamiento: value } : trat,
+      )
+      return { ...prevData, Tratamiento: newTratamiento }
     })
   }
 
@@ -130,7 +149,6 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
 
   const guardar = async () => {
     if (!formData) return
-    
 
     const requiredFields = {
       motivoIngreso: "Motivo de Ingreso",
@@ -148,10 +166,12 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
     }
 
     try {
+      console.log(formData)
+
       const response = await axios.post("http://127.0.0.1:8000/api/Historia", formData)
       console.log("Respuesta del servidor:", response.data)
       alert("Formulario guardado con éxito")
-      window.location.href="http://127.0.0.1:8000/fisioCita"
+      window.history.back()
     } catch (error) {
       console.error("Error al guardar:", error)
       alert("Error al guardar el formulario")
@@ -181,8 +201,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
       </div>
     )
   }
-  console.log(formData);
-  
+
   return (
     <div className="container py-4">
       <h2>Formulario Historias</h2>
@@ -200,7 +219,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.Nombre}
                 onChange={handleChange}
               />
-              <label htmlFor="Nombre">Nombre Completo</label>
+              <label htmlFor="Nombre">Nombre Completo*</label>
             </div>
           </div>
 
@@ -215,7 +234,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.Servicio}
                 onChange={handleChange}
               />
-              <label htmlFor="Servicio">Servicio</label>
+              <label htmlFor="Servicio">Servicio *</label>
             </div>
           </div>
           <div className="col-md-3">
@@ -263,7 +282,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={edad(formData.fechaN)}
                 readOnly
               />
-              <label htmlFor="edad">Edad</label>
+              <label htmlFor="edad">Edad *</label>
             </div>
           </div>
         </div>
@@ -281,7 +300,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.estadoC}
                 onChange={handleChange}
               />
-              <label htmlFor="estadoC">Estado Civil</label>
+              <label htmlFor="estadoC">Estado Civil *</label>
             </div>
           </div>
           <div className="col-md-6">
@@ -295,7 +314,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.Ocupa}
                 onChange={handleChange}
               />
-              <label htmlFor="Ocupa">Ocupación</label>
+              <label htmlFor="Ocupa">Ocupación *</label>
             </div>
           </div>
         </div>
@@ -313,7 +332,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.Lugar}
                 onChange={handleChange}
               />
-              <label htmlFor="Lugar">Lugar de nacimiento</label>
+              <label htmlFor="Lugar">Lugar de nacimiento *</label>
             </div>
           </div>
           <div className="col-md-6">
@@ -327,7 +346,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.fechaN}
                 onChange={handleChange}
               />
-              <label htmlFor="fechaN">Fecha de Nacimiento</label>
+              <label htmlFor="fechaN">Fecha de Nacimiento *</label>
             </div>
           </div>
         </div>
@@ -345,7 +364,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.Ubicacion}
                 onChange={handleChange}
               />
-              <label htmlFor="Ubicacion">Dirección Completa</label>
+              <label htmlFor="Ubicacion">Dirección Completa *</label>
             </div>
           </div>
         </div>
@@ -363,49 +382,66 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                 value={formData.fechaIngreso}
                 onChange={handleChange}
               />
-              <label htmlFor="fechaIngreso">Fecha Primera Cita</label>
+              <label htmlFor="fechaIngreso">Fecha Primera Cita *</label>
             </div>
           </div>
           <div className="col-md-6">
-  <div className="card h-100">
-    <div className="card-body">
-      {/* Título del bloque */}
-      <p className="card-title text-center">Motivo de Alta</p>
-      
-      <div className="d-flex gap-4">
-        <div className="form-check">
-          <input
-            type="radio"
-            className="form-check-input"
-            name="EGRESO"
-            id="curacion"
-            value="CURACIÓN"
-            checked={formData.EGRESO === "CURACIÓN"}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="curacion">
-            CURACIÓN
-          </label>
-        </div>
-        <div className="form-check ms-5">
-          <input
-            type="radio"
-            className="form-check-input"
-            name="EGRESO"
-            id="mejoria"
-            value="MEJORÍA"
-            checked={formData.EGRESO === "MEJORÍA"}
-            onChange={handleChange}
-          />
-          <label className="form-check-label" htmlFor="mejoria">
-            MEJORÍA
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            <div className="card h-100">
+              <div className="card-body">
+                {/* Título del bloque */}
+                <p className="card-title text-center">Motivo de Alta</p>
 
+                <div className="d-flex gap-4">
+                  <div className="form-check">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="EGRESO"
+                      id="curacion"
+                      value="CURACIÓN"
+                      checked={formData.EGRESO === "CURACIÓN"}
+                      onClick={(e) => {
+                        // Use onClick instead of onChange for toggling
+                        if (formData.EGRESO === "CURACIÓN") {
+                          // If already selected, clear it
+                          setFormData({ ...formData, EGRESO: "" })
+                        } else {
+                          // Otherwise set the new value
+                          setFormData({ ...formData, EGRESO: "CURACIÓN" })
+                        }
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="curacion">
+                      CURACIÓN
+                    </label>
+                  </div>
+                  <div className="form-check ms-5">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="EGRESO"
+                      id="mejoria"
+                      value="MEJORÍA"
+                      checked={formData.EGRESO === "MEJORÍA"}
+                      onClick={(e) => {
+                        // Use onClick instead of onChange for toggling
+                        if (formData.EGRESO === "MEJORÍA") {
+                          // If already selected, clear it
+                          setFormData({ ...formData, EGRESO: "" })
+                        } else {
+                          // Otherwise set the new value
+                          setFormData({ ...formData, EGRESO: "MEJORÍA" })
+                        }
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="mejoria">
+                      MEJORÍA
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Séptima fila */}
@@ -502,7 +538,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   value={formData.motivoIngreso}
                   onChange={handleChange}
                 ></textarea>
-                <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO</label>
+                <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO *</label>
               </div>
             </div>
             <div className="col-4">
@@ -516,7 +552,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   value={formData.enfermedadActual}
                   onChange={handleChange}
                 ></textarea>
-                <label htmlFor="enfermedadActual">ENFERMEDAD ACTUAL</label>
+                <label htmlFor="enfermedadActual">ENFERMEDAD ACTUAL *</label>
               </div>
             </div>
             <div className="col-4">
@@ -530,7 +566,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   value={formData.diagnosticoProvisional}
                   onChange={handleChange}
                 ></textarea>
-                <label htmlFor="diagnosticoProvisional">DIAGNÓSTICO PROVISIONAL</label>
+                <label htmlFor="diagnosticoProvisional">DIAGNÓSTICO PROVISIONAL *</label>
               </div>
             </div>
           </div>
@@ -552,7 +588,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               </div>
             </div>
           </div>
-          <div className="row g-3" >
+          <div className="row g-3">
             <div className="col-12">
               <div className="form-floating">
                 <textarea
@@ -586,6 +622,40 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
               </div>
             </div>
           ))}
+          <div className="row g-3">
+            <div className="col-12">
+              <div className="form-floating">
+                <textarea
+                  className="form-control"
+                  id={`nuevaTratamiento`}
+                  name={`nuevaTratamiento`}
+                  placeholder="Tratamiento"
+                  style={{ height: "150px" }}
+                  value={formData.nuevaTratamiento}
+                  onChange={handleChange}
+                ></textarea>
+                <label htmlFor={`nuevaTratamiento`}>Nuevo Tratamiento</label>
+              </div>
+            </div>
+          </div>
+          {formData.Tratamiento.map((trat, index) => (
+            <div className="row g-3" key={trat.id}>
+              <div className="col-12">
+                <div className="form-floating">
+                  <textarea
+                    className="form-control"
+                    id={`Tratamiento-${trat.id}`}
+                    name={`Tratamiento-${trat.id}`}
+                    placeholder="Tratamiento"
+                    style={{ height: "150px" }}
+                    value={trat.Tratamiento}
+                    onChange={(e) => handleTratamientoChange(trat.id, e.target.value)}
+                  ></textarea>
+                  <label htmlFor={`Tratamiento-${trat.id}`}>Tratamiento {index + 2}</label>
+                </div>
+              </div>
+            </div>
+          ))}
 
           {/* Botón de envío */}
           <div className="row">
@@ -600,4 +670,3 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
     </div>
   )
 }
-

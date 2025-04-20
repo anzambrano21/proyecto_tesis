@@ -20,7 +20,7 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
   const [hora, setHora] = useState(['']);
   const [time, setTime] = useState('');
   const [direc, setdirec] = useState('')
-  const [Pago, setpago] = useState('TPago')
+  const [Pago, setpago] = useState('')
   const [selectedValue, setSelectedValue] = useState('');
   const handleDateChange = async (date) => {
     // Resetea la hora a las 00:00:00 para evitar saltos de día
@@ -68,12 +68,8 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     setdirec(direc.target.value)
   }
   const pago = (event) => {
-    if(event.target.value=''){
-      setpago(event.target.value)
-    }
     
-
-
+      setpago(event.target.value)
   }
   const Guardar = async () => {
 
@@ -85,7 +81,7 @@ const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
 
 // Validación de la hora seleccionada
 if (!time || hora.includes(time)) {
-  alert("La Hora está Ocupada. Seleccione Otra Hora.");
+  alert("La Hora no Valida Seleccione Otra Hora.");
   return;
 }
 
@@ -132,6 +128,7 @@ try {
   return (
     <div className=" p-8 row justify-content-around">
       <h2 className="text-2xl font-bold mb-4">Fechas Disponibles</h2>
+      <h2>Campos Obligatorios (*)</h2>
       <div className="col-4 d-flex justify-content-center">
         <DatePicker
           selected={fechaSeleccionada}
@@ -158,7 +155,7 @@ try {
       <div className="Formulario col-4 justify-content-start">
         <div className="row">
           <div className="col-5">
-            <label htmlFor="hora">Selecciona una hora:</label>
+            <h6 >Selecciona una Hora *</h6>
             <select className="form-control" name="hora" id="hora" onChange={handleTimeChange}>
               <option value="">Selecione</option>
               <option value="08:00">8 am</option>
@@ -170,14 +167,16 @@ try {
               <option value="15:00">3 pm</option>
               <option value="16:00">4 pm</option>
             </select>
-            <br /> <label htmlFor="direc">Dirección</label> <input onChange={direccion} type="text" id="direc" name="Ubicacion" className="form-control" />
-            <br /> <label htmlFor="PrimeraCita" className="ml-2">Primera Cita</label>
+            <br /> <h6 >Dirección *</h6> <input onChange={direccion} type="text" id="direc" name="Ubicacion" className="form-control" />
+            <br /> 
+            <h6>Tipo de Cita *</h6>
+            <label htmlFor="PrimeraCita" className="ml-2">Primera Cita</label>
             <input type="radio" name="TCit" id="PrimeraCita" value="Primera Cita" checked={selectedValue === 'Primera Cita'} onChange={handleRadioChange} className="form-check-input" />
             <br />
             <label htmlFor="Seguimiento">Cita de Seguimiento</label>
             <input type="radio" name="TCit" id="Seguimiento" value="Cita de Seguimiento" checked={selectedValue === 'Cita de Seguimiento'} onChange={handleRadioChange} className="form-check-input" />
           </div>
-          <div className="col-5"> <label htmlFor="Pago">Forma de Pago</label>
+          <div className="col-5"> <h6 >Forma de Pago *</h6>
             <select name="Pago" className="form-control" onChange={pago} id="Pago">
               <option value="">Seleccione</option>
               <option value="TPago">Transferencia</option>

@@ -32,11 +32,12 @@ export const Contenido = () => {
                     <div className='row justify-content-around '>
                     <ObcionAdmin tag={'http://127.0.0.1:8000/Admin'} Titulo={'Info del Consultorio'} descrip={'Cambio de los datos del consultorio (Correo, Fechas, Instagram)'} Imagen={'http://localhost:5173/public/imagen/datos.png'} />
                     <ObcionAdmin tag={'http://127.0.0.1:8000/CrearConte'} Titulo={'Crear Contenido'} descrip={'Crear Contenido o material que el paciente puede usar para su recuperacion'} Imagen={'http://localhost:5173/public/imagen/material.webp'}/>
-                    <ObcionAdmin tag={'http://127.0.0.1:8000/Asignar'} Titulo={'Asignar Contenido a paciente'} descrip={'Modulo para la asignacion de material de recuperacion del paciente'} Imagen={'http://localhost:5173/public/imagen/asignacio.webp'} />
+                    <ObcionAdmin tag={'http://127.0.0.1:8000/Asignar'} Titulo={'Asignar Contenido a Paciente'} descrip={'Modulo para la asignacion de material de recuperacion del paciente'} Imagen={'http://localhost:5173/public/imagen/asignacio.webp'} />
                     
                     </div>
                     <div className='row py-5 justify-content-around '>
                     <ObcionAdmin tag={'http://127.0.0.1:8000/fisioCita'} Titulo={'Agenda Fisioterapia'} descrip={'Modulo para Visualizar la agenda del fisioterapeuta '} Imagen={'http://localhost:5173/public/imagen/agenda.webp'} />
+                    <ObcionAdmin tag={'http://127.0.0.1:8000/adminHistoria'} Titulo={'Lista de Pacientes'} descrip={'Modulo para Visualizar la agenda del fisioterapeuta '} Imagen={'http://localhost:5173/public/imagen/listaUser.png'} />
                     </div>
                 </div>
                 <Footer />

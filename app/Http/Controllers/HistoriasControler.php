@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Historias;
 use App\Models\notaEvalua;
 use Carbon\Carbon;
+use App\Models\Trataamiento;
 
 class HistoriasControler extends Controller
 {
@@ -65,6 +66,13 @@ class HistoriasControler extends Controller
                     $nota->save();
                 }
             }
+            foreach ($request['Tratamiento'] as $trata) {
+                if (!empty($trata["Tratamiento"])) {
+                    $nota = Trataamiento::find($trata["id"]);
+                    $nota->Tratamiento = $trata["Tratamiento"];
+                    $nota->save();
+                }
+            }
         } else {
             // Calcular la edad
             $fechaNacimiento = Carbon::parse($request['fechaN']);
@@ -100,6 +108,14 @@ class HistoriasControler extends Controller
                 'Nota' => $request['nuevaNotaEvalua'],
             ]);
         }
+        //crear tratamiento si existe 
+        
+        if (!empty($request['nuevaTratamiento'])) {
+            Trataamiento::create([
+                'IdHist' => $idHist->id,
+                'Tratamiento' => $request['nuevaTratamiento'],
+            ]);
+        }
     }
     
     /**
@@ -113,7 +129,7 @@ class HistoriasControler extends Controller
     public function mostrar( $id)
     {
         
-        return Historias::with('Nota')->find($id);
+        return Historias::with('Nota')->with('Tratamiento')->find($id);
     }
     /**
      * Show the form for editing the specified resource.

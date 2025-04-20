@@ -14,6 +14,7 @@ import {DatAdmin} from '../paginas/cambiosdedatosAdmin.jsx'
 import { Contenido } from '../paginas/moduloContenido.jsx';
 import {CrearConte} from '../paginas/modulocrearConte.jsx';
 import {AsignarCont} from '../paginas/moduloAsignarCon.jsx'
+import {UsuarieHistoria} from '../paginas/modulodeUsuarioHistoria.jsx'
 export default function Home() {
     return (
         <div>
@@ -35,6 +36,7 @@ export default function Home() {
                     <Route path='/Conte' element={<Contenido/>}/>
                     <Route path='/CrearConte' element={<CrearConte/>}/>
                     <Route path='/Asignar' element={<AsignarCont/>}/>
+                    <Route path='/adminHistoria' element={<UsuarieHistoria/>}/>
 
 
                 </Routes>

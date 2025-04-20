@@ -6,7 +6,7 @@ export const TablaUser=({data,funcion})=>{
         funcion(row);
     };
     return(
-        <table className="table table-striped table-hover col ">
+        <table className=" table table-striped table-hover col ">
             <thead className="table-dark">
                 <tr>
                     <th>Nombre</th>

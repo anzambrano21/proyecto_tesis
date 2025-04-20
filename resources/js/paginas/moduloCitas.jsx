@@ -21,7 +21,7 @@ export const Citas = () => {
                 const appointments = response.data;
                 const updatedDiasColoridos = appointments.map(appointment => {
                     const fecha = new Date(appointment.date + 'T00:00:00'); let color;
-                    console.log( appointment.date);
+                    
                     if (appointment.count >= 8) {
                         color = '#FF0000'; // Rojo para 10 o más citas
                     } else if (appointment.count >= 4) {

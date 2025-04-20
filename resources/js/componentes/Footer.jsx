@@ -33,7 +33,7 @@ export const Footer = () => {
 
   let ban = (window.location.pathname == '/' || window.location.pathname == "/fisioCita" || window.location.pathname == "/Registro" || (window.location.pathname == "/conte" && example.datos.Rol=="medico")
     || window.location.pathname == "/Historias" || window.location.pathname == "/Admin") ? true : false;
-  console.log(ban);//Historias
+  //Historias
   if(!datos){
     return(
       <div></div>

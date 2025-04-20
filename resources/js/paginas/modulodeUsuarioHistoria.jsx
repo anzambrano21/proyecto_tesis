@@ -1,7 +1,7 @@
 "use client"
 
 import "bootstrap/dist/css/bootstrap.min.css"
-import { TablaCita } from "../componentes/tablaaCita.jsx"
+import { TablaUser } from "../componentes/tablaUsuario.jsx"
 import { TablaHistoria } from "../componentes/tablaHistorias.jsx"
 import { Navegador } from "../componentes/navegador.jsx"
 import { Footer } from "../componentes/Footer.jsx"
@@ -10,7 +10,7 @@ import axios from "axios"
 import { Exaplecontect } from "../context/contexto.jsx"
 import React from "react"
 
-export const FisioCita = () => {
+export const UsuarieHistoria = () => {
   const example = useContext(Exaplecontect)
 
 
@@ -28,15 +28,15 @@ export const FisioCita = () => {
     sexo: "",
     id: "",
   })
-  const [direccion, setDireccion] = useState("")
+  
   const [historia, setHistoria] = useState(null)
 
   useEffect(() => {
     // Esta función se ejecuta antes de que el componente se renderice
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/all")
-        console.log(response.data)
+        const response = await axios.get("http://127.0.0.1:8000/api/Usuario")
+        
         setData(response.data)
       } catch (error) {
         console.error("Error fetching data:", error)
@@ -73,8 +73,10 @@ export const FisioCita = () => {
   }
 
   const handleSelectCita = async (cita) => {
+    
+    
     const hoy = new Date()
-    const nacimiento = new Date(cita.user.fechaN)
+    const nacimiento = new Date(cita.fechaN)
     let edad = hoy.getFullYear() - nacimiento.getFullYear()
     const mes = hoy.getMonth() - nacimiento.getMonth()
 
@@ -83,19 +85,17 @@ export const FisioCita = () => {
     }
 
     setFormData({
-      nombre: cita.user.Nombre,
-      date: cita.fecha,
-      time: cita.hora,
+      nombre: cita.Nombre,
       edad: edad,
-      sexo: cita.user.sexo,
-      id: cita.user.id,
+      sexo: cita.sexo,
+      id: cita.id,
     })
 
-    setDireccion(cita.direc)
-    setAddress(cita.direc) // Actualizar la dirección para el mapa
+    
+    setAddress(cita.Ubicacion) // Actualizar la dirección para el mapa
 
     try {
-      const historias = await axios.get(`http://127.0.0.1:8000/api/Historia/${cita.IdUser}`)
+      const historias = await axios.get(`http://127.0.0.1:8000/api/Historia/${cita.id}`)
       setHisto(historias.data)
     } catch (error) {
       console.error("Error fetching historias:", error)
@@ -131,8 +131,8 @@ export const FisioCita = () => {
     <div>
       <Navegador />
       <div className="row justify-content-around">
-        <div className="col-4">
-          <TablaCita onSelect={handleSelectCita} data={data} />
+        <div className="col-4 mt-5">
+          <TablaUser funcion={handleSelectCita} data={data} />
         </div>
         <div className="col-4">
           <TablaHistoria data={histo} funcion={getHisto} />
@@ -172,6 +172,10 @@ export const FisioCita = () => {
               <label htmlFor="patologia">Patología</label>
               <input id="patologia" type="text" className="form-control" />
             </div>
+            <div className="col">
+              <label htmlFor="tratamiento">Tratamiento</label>
+              <input id="tratamiento" type="text" className="form-control" />
+            </div>
           </div>
           <div className="row mt-2 justify-content-between">
             <div className="col">
@@ -201,5 +205,5 @@ export const FisioCita = () => {
   )
 }
 
-export default FisioCita
+export default UsuarieHistoria
 

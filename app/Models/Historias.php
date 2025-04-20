@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Usuario;
 use App\Models\notaEvalua;
+use App\Models\Trataamiento;
 class Historias extends Model
 {
     use HasFactory;
@@ -17,6 +18,10 @@ class Historias extends Model
     }
     public function Nota() {
         return $this->hasMany(notaEvalua::class, 'IdHist'); 
+        
+    }
+    public function Tratamiento () {
+        return $this->hasMany(Trataamiento::class, 'IdHist'); 
         
     }
 
