@@ -25,17 +25,17 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
   const handleDateChange = async (date) => {
     // Resetea la hora a las 00:00:00 para evitar saltos de día
     const adjustedDate = new Date(date.setHours(0, 0, 0, 0));
-    
+
     // Realiza la solicitud al servidor con el formato adecuado
     let response = await axios.get(`http://127.0.0.1:8000/api/Cita/${adjustedDate.toISOString().split('T')[0]}`);
-    
+
     // Guarda la respuesta del servidor
     setHora(response.data);
-  
+
     // Guarda la fecha ajustada correctamente
     setFechaSeleccionada(adjustedDate);
   };
-  
+
 
 
 
@@ -54,7 +54,7 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     const selectedTime = event.target.value;
 
 
-    if (hora.includes(selectedTime) || selectedTime=='' ) {
+    if (hora.includes(selectedTime) || selectedTime == '') {
       alert('Esta hora no está disponible. Por favor, selecciona otra hora.');
       setTime(''); // Restablece el valor del input 
     } else { setTime(selectedTime); }
@@ -68,56 +68,56 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     setdirec(direc.target.value)
   }
   const pago = (event) => {
-    
-      setpago(event.target.value)
+
+    setpago(event.target.value)
   }
   const Guardar = async () => {
 
-// Actualiza la fecha seleccionada
-fechaSeleccionada.setDate(fechaSeleccionada.getDate());
+    // Actualiza la fecha seleccionada
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate());
 
-// Formatea la fecha en formato "YYYY-MM-DD"
-const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
+    // Formatea la fecha en formato "YYYY-MM-DD"
+    const formattedDate = fechaSeleccionada.toISOString().split('T')[0];
 
-// Validación de la hora seleccionada
-if (!time || hora.includes(time)) {
-  alert("La Hora no Valida Seleccione Otra Hora.");
-  return;
-}
+    // Validación de la hora seleccionada
+    if (!time || hora.includes(time)) {
+      alert("La Hora no Valida Seleccione Otra Hora.");
+      return;
+    }
 
-// Construcción del objeto de datos para la cita
-const datosCita = {
-  dia: formattedDate,
-  hora: time,
-  direc: direc,
-  pago: Pago,
-  tipCit: selectedValue,
-  id: example['datos'].id, // Usa "null" como fallback si el ID no existe
-};
+    // Construcción del objeto de datos para la cita
+    const datosCita = {
+      dia: formattedDate,
+      hora: time,
+      direc: direc,
+      pago: Pago,
+      tipCit: selectedValue,
+      id: example['datos'].id, // Usa "null" como fallback si el ID no existe
+    };
 
-// Verifica si hay campos inválidos
-const camposInvalidos = Object.entries(datosCita).filter(
-  ([_, valor]) => !valor // Verifica valores nulos, vacíos o "falsy"
-);
+    // Verifica si hay campos inválidos
+    const camposInvalidos = Object.entries(datosCita).filter(
+      ([_, valor]) => !valor // Verifica valores nulos, vacíos o "falsy"
+    );
 
-if (camposInvalidos.length > 0) {
-  alert("Rellena los Campos para Guardar su Cita.");
-  return;
-}
+    if (camposInvalidos.length > 0) {
+      alert("Rellena los Campos para Guardar su Cita.");
+      return;
+    }
 
-// Intenta realizar la solicitud
-try {
-  const response = await axios.post('http://127.0.0.1:8000/api/Cita', datosCita);
-  
-  if (response.data === 'exito') {
-    alert('Cita Guardada con Éxito');
-    // Redirigir a otra página, si es necesario
-    // window.location.href = "http://127.0.0.1:8000/";
-  }
-} catch (error) {
-  console.error("Error al guardar la cita:", error);
-  alert('Ocurrió un error al intentar guardar la cita.');
-}
+    // Intenta realizar la solicitud
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/Cita', datosCita);
+
+      if (response.data === 'exito') {
+        alert('Cita Guardada con Éxito');
+        // Redirigir a otra página, si es necesario
+        window.location.href = "http://127.0.0.1:8000/";
+      }
+    } catch (error) {
+      console.error("Error al guardar la cita:", error);
+      alert('Ocurrió un error al intentar guardar la cita.');
+    }
 
 
   }
@@ -128,8 +128,11 @@ try {
   return (
     <div className=" p-8 row justify-content-around">
       <h2 className="text-2xl font-bold mb-4">Fechas Disponibles</h2>
-      <h2>Campos Obligatorios (*)</h2>
-      <div className="col-4 d-flex justify-content-center">
+      <h3>Campos Obligatorios (*)</h3>
+
+
+      <div className="col-7 d-flex justify-content-center">
+        <div className="col-4">
         <DatePicker
           selected={fechaSeleccionada}
           onChange={handleDateChange}
@@ -150,9 +153,28 @@ try {
           )}
           filterDate={filterDates}
         />
+        </div>
 
+        <div className="col-4">
+          <h5>Leyendas</h5>
+          <ul className="list-unstyled">
+            <li>
+              <span style={{ color: "green" }}>●</span> Verde: Alta cantidad de reservas
+            </li>
+            <li>
+              <span style={{ color: "orange" }}>●</span> Naranja: Mediana cantidad de agenda
+            </li>
+            <li>
+              <span style={{ color: "red" }}>●</span> Rojo: Ocupado
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className="Formulario col-4 justify-content-start">
+
+
+
+
+      <div className="Formulario col-5 justify-content-start">
         <div className="row">
           <div className="col-5">
             <h6 >Selecciona una Hora *</h6>
@@ -168,7 +190,7 @@ try {
               <option value="16:00">4 pm</option>
             </select>
             <br /> <h6 >Dirección *</h6> <input onChange={direccion} type="text" id="direc" name="Ubicacion" className="form-control" />
-            <br /> 
+            <br />
             <h6>Tipo de Cita *</h6>
             <label htmlFor="PrimeraCita" className="ml-2">Primera Cita</label>
             <input type="radio" name="TCit" id="PrimeraCita" value="Primera Cita" checked={selectedValue === 'Primera Cita'} onChange={handleRadioChange} className="form-check-input" />

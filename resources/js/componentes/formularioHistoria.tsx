@@ -449,16 +449,27 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
           <div className="col-md-6">
             <div className="row g-3">
               <div className="col-12">
-                <CheckboxGroup
+              <CheckboxGroup
+                  title="EXTREMIDADES"
+                  name="extremidades"
+                  options={["Color", "Edemas", "Temblor", "Deformidades", "Úlceras", "Varices", "Otros"]}
+                  values={formData.extremidades}
+                  onChange={handleCheckboxChange}
+                />
+                
+              </div>
+              <div className="col-12">
+              <CheckboxGroup
                   title="OSTEOMUSCULAR"
                   options={["Artralgias", "Debilidad", "Dolores óseos", "Deformidades", "Otros"]}
                   name="osteomuscular"
                   values={formData.osteomuscular}
                   onChange={handleCheckboxChange}
                 />
+                
               </div>
               <div className="col-12">
-                <CheckboxGroup
+              <CheckboxGroup
                   title="NERVIOSO Y MENTAL"
                   options={[
                     "Convulsiones",
@@ -473,15 +484,6 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   ]}
                   name="nerviosoYMental"
                   values={formData.nerviosoYMental}
-                  onChange={handleCheckboxChange}
-                />
-              </div>
-              <div className="col-12">
-                <CheckboxGroup
-                  title="EXTREMIDADES"
-                  name="extremidades"
-                  options={["Color", "Edemas", "Temblor", "Deformidades", "Úlceras", "Varices", "Otros"]}
-                  values={formData.extremidades}
                   onChange={handleCheckboxChange}
                 />
               </div>
@@ -538,7 +540,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   value={formData.motivoIngreso}
                   onChange={handleChange}
                 ></textarea>
-                <label htmlFor="motivoIngreso">MOTIVO(S) DE INGRESO *</label>
+                <label htmlFor="motivoIngreso">MOTIVO(S) DE Consulta *</label>
               </div>
             </div>
             <div className="col-4">
@@ -634,7 +636,7 @@ export const FormHistoria: React.FC<{ dato: Record<string, any> }> = ({ dato }) 
                   value={formData.nuevaTratamiento}
                   onChange={handleChange}
                 ></textarea>
-                <label htmlFor={`nuevaTratamiento`}>Nuevo Tratamiento</label>
+                <label htmlFor={`nuevaTratamiento`}>Plan de  Tratamiento</label>
               </div>
             </div>
           </div>

@@ -30,3 +30,4 @@ Route::get('/all',[CitasControler::class,'Citas']);
 Route::get('/proxCit/{id}',[CitasControler::class,'ProxCit']);
 Route::get('/most/{id}',[HistoriasControler::class,'mostrar']);
 Route::apiResource("Material",AsugMatController::class);
+Route::post('/Asignar',[AsugMatController::class,'Asignar']);

@@ -21,31 +21,50 @@ class AsugMatController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->has('Archivo')) {
-            $archivo = $request->file('Archivo');
-            
-            // Generar un nombre único para el archivo
-            $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
-    
-            // Almacenar el archivo en el disco configurado (por defecto 'local')
-            $rutaArchivo = $archivo->move(public_path('archivos'), $nombreArchivo);
-            // Realizar alguna acción si el índice 'file' está presente
-            material::create([
-                "Titulo" =>$request['Titulo'],
-                "Archivo" =>$nombreArchivo,
-                "COntenido" =>$request['COntenido']
-               
-            ]); 
-            // Por ejemplo, puedes guardar el archivo o procesarlo de alguna manera
-        }else {
-            AsugMat::create([
-                "IdUser" =>$request['IdUser'],
-                "IdMat" =>$request['IdMat']
-               
-            ]); 
+        
+       
+            $material = null;
+        
+            if ($request->id == 0) {
+                // Crear un nuevo material si el id es 0
+                $material = new Material();
+            } else {
+                // Buscar el material existente si id no es 0
+                $material = Material::findOrFail($request->id);
+            }
+        
+            // Verificar si hay un archivo en el request
+            if ($request->hasFile('Archivo')) {
+                $archivo = $request->file('Archivo');
+                $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+                
+                // Mover el nuevo archivo a la carpeta "archivos"
+                $archivo->move(public_path('archivos'), $nombreArchivo);
+                
+                // Si es una actualización, eliminar el archivo anterior
+                if (!is_null($material->Archivo)) {
+                    $rutaArchivoAntiguo = public_path('archivos/' . $material->Archivo);
+                    if (file_exists($rutaArchivoAntiguo)) {
+                        unlink($rutaArchivoAntiguo);
+                    }
+                }
+        
+                // Asignar el nuevo nombre de archivo
+                $material->Archivo = $nombreArchivo;
+            }
+        
+            // Actualizar o asignar valores comunes
+            $material->Titulo = $request->input('Titulo');
+            $material->COntenido = $request->input('COntenido');
+        
+            // Guardar los cambios (ya sea creación o actualización)
+            $material->save();
+        
+            return response()->json(['mensaje' => 'Operación realizada exitosamente']);
         }
+        
    
-    }
+    
 
     /**
      * Display the specified resource.
@@ -63,6 +82,13 @@ class AsugMatController extends Controller
         if($asugMat==1){
             AsugMat::where('IdUser',$request->IdUser)->where('IdMat',$request->IdMat)->delete();
         }
+    }
+    public function Asignar(Request $request)
+    {
+        AsugMat::create([
+            'IdUser'=>$request['IdUser'],
+            'IdMat'=>$request['IdMat']
+        ]);
     }
 
     /**

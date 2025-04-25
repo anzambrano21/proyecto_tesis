@@ -62,9 +62,9 @@ export const AsignarCont = () => {
             IdMat: Conteni.material.id
         }
 
-
+ 
         try {
-            axios.post('http://127.0.0.1:8000/api/Material', datos);
+            axios.post('http://127.0.0.1:8000/api/Asignar', datos);
 
 
 

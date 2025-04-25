@@ -45,9 +45,10 @@ class UsuarioController extends Controller
         if ($user && Hash::check($request->contra, $user->password)) {
              Session::put("Rol", $user['rol']);
              // Autenticar al usuario 
-             Session::put("user", $user["NombreUse"]);
+             Session::put("user", $user["Nombre"]);
              Session::put("home", "Login successful");
              Session::put("id", $user["id"]);
+             Session::put("email", $user["email"]);
              return Session::all();
 
              } else {
@@ -78,18 +79,23 @@ class UsuarioController extends Controller
      */
     public function update(Request $request,  $id)
     {
-        $user=Usuario::find($id);
-        $user->Nombre=$request['nombre'];
-        $user->Ubicacion=$request['ubicacion'];
-        $user->email =$request['email'];
-        $user->telefono=$request['telefono'];
-        $user->password=Hash::make($request['password']);
-        $user->sexo=$request['sexo'];
-        $user->estadoC=$request['estadoC'];
-        $user->Ocupa=$request['ocupa'];
-        $user->Lugar=$request['lugar'];
-        $user->fechaN=$request['fechaN'];
-        $user->save();
+        $user=Usuario::find($id); 
+        if($user){
+            $user->update([
+                'Nombre' => $request['nombre'],
+                'Ubicacion' => $request['ubicacion'],
+                'telefono' => $request['telefono'],
+                'password' => Hash::make($request['password']),
+                'sexo' => $request['sexo'],
+                'estadoC' => $request['estadoC'],
+                'Ocupa' => $request['ocupa'],
+                'Lugar' => $request['lugar'],
+                'fechaN' => $request['fechaN']
+            ]);
+            
+            return $id;
+        }
+        
     }
 
     /**

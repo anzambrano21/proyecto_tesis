@@ -22,11 +22,12 @@ export const ModuloUsuario=()=>{
         
         axios.put(`http://127.0.0.1:8000/api/Usuario/${example.datos.id}`,Ndatos)
     }
+    console.log(example.datos);
     
     return(
         <div>
             <Navegador/>
-            <FormUser onClick={cerrar} cambios={Cambios}/>
+            <FormUser onClick={cerrar} cambios={Cambios} datos={example.datos}/>
 
             <Footer/>
             

@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import { useState, useEffect, useContext } from 'react'
 
-export const FormUser = ({onClick,cambios}) => {
+export const FormUser = ({onClick,cambios,datos}) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData: Record<string, string | string[]> = {};
@@ -52,7 +52,7 @@ export const FormUser = ({onClick,cambios}) => {
 
                     <div className="col-md-6">
                         <label htmlFor="email" className="form-label">Email</label>
-                        <input type="email" className="form-control" id="email" required />
+                        <input type="email" className="form-control" id="email" required value={datos.email} />
                     </div>
 
 

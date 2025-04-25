@@ -157,7 +157,7 @@ class HistoriasControler extends Controller
     public function pdf(Request $request) {
         
         $id = $request->query('H');
-        $data=Historias::with('Nota')->with('user')->find($id);
+        $data=Historias::with('Nota')->with('user')->with('Tratamiento')->find($id);
         $pdf = Pdf::loadView('historia', compact("data"));
         return $pdf->stream();
         

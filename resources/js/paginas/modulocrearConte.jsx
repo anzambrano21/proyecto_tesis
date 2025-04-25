@@ -4,11 +4,13 @@ import { TablaCont } from "../componentes/TablaConte.jsx";
 import { useState,useEffect,useContext  } from "react"
 import axios from 'axios';
 import  { Exaplecontect } from "../context/contexto"
+import { setSeconds } from 'date-fns';
 export const CrearConte = () => {
     const example = useContext(Exaplecontect)
     const [file, setFile] = useState(null)
     const [dragActive, setDragActive] = useState(false)
     const [Conte, setConte] = useState([])
+    const [SelecConte, SetselecConte]=useState(null)
     useEffect(() => { 
         // Esta función se ejecuta antes de que el componente se renderice
         const fetchData = async () => { 
@@ -47,13 +49,17 @@ export const CrearConte = () => {
         }
     }
     const seleccionConte = (e) => {
+        console.log(e);
+        
+        
         if(e){
             document.getElementById('Titulo').value=e.Titulo
             document.getElementById('motivoIngreso').value=e.COntenido
-            console.log(e);
+            SetselecConte(e)
         }else{
             document.getElementById('Titulo').value=''
             document.getElementById('motivoIngreso').value=''
+            SetselecConte(null)
         }
 
         
@@ -66,35 +72,40 @@ export const CrearConte = () => {
         }
     }
     const Guardaar=async()=>{
-        if(!file){
-            alert("Adjunta un Archivo")
-            return
+        if (!file && !SelecConte) {
+            alert("Adjunta un Archivo");
+            return;
         }
-        let datos={
-            Archivo:file,
+        
+        let datos = {
+            id: SelecConte ? SelecConte.id : 0,
+            Archivo: file,
             Titulo: document.getElementById('Titulo').value,
-            COntenido:document.getElementById('motivoIngreso').value
-            
-        }
+            COntenido: document.getElementById('motivoIngreso').value
+        };
+        
         console.log(datos);
-        try {
-            
-            axios.post('http://127.0.0.1:8000/api/Material', datos, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(response => {
+        
+        const enviarDatos = async () => {
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/Material', datos, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+        
                 console.log('Archivo subido exitosamente', response.data);
-            })
-            .catch(error => {
+                alert('Guardado con Éxito');
+                window.location.href = "http://127.0.0.1:8000/conte";
+            } catch (error) {
                 console.error('Error al subir el archivo', error);
-            });
-            alert('Guardado con Exito')
-            window.location.href="http://127.0.0.1:8000/conte"
-        } catch (error) {
-            
-        }
+                alert('Hubo un error al guardar');
+            }
+        };
+        
+        // Llamar a la función asíncrona
+        enviarDatos();
+        
 
         
     }

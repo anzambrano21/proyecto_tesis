@@ -11,7 +11,7 @@ class Usuario extends Model
 {
     use HasFactory;
     protected $fillable = [ 'Nombre', 'Ubicacion', 'email', 'telefono','password',
-    'sexo','estadoC','Ocupa','Lugar','fechaN','rol' ];
+    'sexo','estadoC','Ocupa','Lugar','fechaN','rol',"apellido" ];
     public function citas() { return $this->hasMany(Citas::class, 'IdUser'); }
     public function Historia() {
         return $this->hasMany(Historias::class, 'IdUser'); 

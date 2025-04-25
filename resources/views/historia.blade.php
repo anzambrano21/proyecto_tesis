@@ -121,7 +121,7 @@ $neuro=[
             border-color: #ffffff;
         }
         .note {
-            font-size: 7pt;
+            font-size: 8pt;
             font-style: italic;
             margin: 0.05in 0;
         }
@@ -163,6 +163,9 @@ $neuro=[
             width: 50%;
             border-left: 1px solid black;
             padding-left: 0.1in;
+        }
+        p {
+            white-space: pre-line;
         }
         .subsection {
             margin-left: 0.15in;
@@ -249,14 +252,14 @@ $neuro=[
 
         <table>
             <tr>
-                <td colspan="2">APELLIDOS: <span class="input-field">{{$data->user->Nombre}}</span></td>
+                <td colspan="2">APELLIDOS: <span class="input-field">{{$data->user->apellido}}</span></td>
                 <td colspan="2">NOMBRES: <span class="input-field">{{$data->user->Nombre}}</span></td>
                 <td>SERVICIO:<span class="input-field">{{$data->servicio}}</span></td>
                 
             </tr>
             <tr>
                 
-                <td>SEXO: <span class="input-field">{{$data->servicio}}</span></td>
+                <td>SEXO: <span class="input-field">{{$data->user->sexo}}</span></td>
                 <td>EDAD: <span class="input-field">{{$data->edad}}</span></td>
                 <td>EDO. CIVIL: <span class="input-field">{{$data->estadoC}}</span></td>
                 <td colspan="2">OCUPACIÓN: <span class="input-field">{{$data->ocupacion}}</span></td>
@@ -286,14 +289,14 @@ $neuro=[
 
 
         <div class="section-title">MOTIVO(S) DE INGRESO</div>
-        <div class="dotted-line">{{$data->motivoIngreso}}</div>
+        <div class="note">{{$data->motivoIngreso}}</div>
 
         <div class="section-title">ENFERMEDAD ACTUAL</div>
         <div class="note">(hacer relato conciso y completo de las dolencias, indicando: fecha de comienzo, duración y tratamiento de cada una de ellas):</div>
-        <div class="dotted-line multi-line">{{$data->enfermedadAct}}</div>
+        <p class="note">{{$data->enfermedadAct}}</p>
 
         <div class="section-title">DIAGNÓSTICO PROVISIONAL</div>
-        <div class="dotted-line">{{$data->diagnosPro}}</div>
+        <div class="note">{{$data->diagnosPro}}</div>
         @if($data->egreso=='MEJORÍA')
         <div class="discharge-options">
             EGRESO POR: CURACIÓN:<span class="checkbox "></span> MEJORÍA:<span class="checkbox checked">
@@ -335,15 +338,9 @@ $neuro=[
         <tr>
             <td>NOMBRE: <span class="input-field">{{$data->user->Nombre}}</span></td>
             <td>SERVICIO: <span class="input-field">{{$data->servicio}}</span></td>
-            <td>PULSO: <span class="input-field"></span> p.p.m</td>
-            <td>RESPIRACIÓN: <span class="input-field"></span> r.p.m.</td>
+            
         </tr>
-        <tr>                
-            <td>TENSIÓN ARTERIAL: <span class="input-field"></span> MX <span class="input-field"></span> MN</td>
-            <td>PESO: <span class="input-field"></span> kgs.</td>
-            <td>TALLA: <span class="input-field"></span> cm.</td>
-            <td>IMC: <span class="input-field"></span> Kg/cm²</td>
-        </tr>
+
     </table>
 
     <table>
@@ -458,14 +455,15 @@ $neuro=[
                 </div>
             </td>
             <td >
-                <p class="parrafo">{{$data->infoAdd}}</p>
+            <p class="parrafo">{!! nl2br(e($data->infoAdd)) !!}</p>
+
             </td>
         </tr>
     </table>
 
     <div class="diagServi">
-        <p>Diagnóstico del Definitivo:</p>
-        <p >{{$data->diagnoServ}}</p>
+        <p class="section-title">Diagnóstico del Definitivo:</p>
+        <p class="note">{{$data->diagnoServ}}</p>
     </div>
 
         
@@ -481,7 +479,7 @@ $neuro=[
             
             <div class="title-section">
 
-                <div class="main-title">Nota de Evaluacion</div>
+                <div class="main-title">Nota de Evaluacion </div>
                 
             </div>
             <div class="form-number">
@@ -491,9 +489,27 @@ $neuro=[
             <div >{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
             </div>
         </div>
-        <div>{{$item->Nota}}</div>
-    
-    @endforeach
+        <div class="note">{{$item->Nota}}</div>
     </div>
+    @endforeach
+    @foreach($data->Tratamiento as $item)
+    <div class="header">
+            
+            <div class="title-section">
+
+                <div class="main-title">Plan de Tratamiento </div>
+                
+            </div>
+            <div class="form-number">
+                
+                
+            <div >{{Carbon::parse($item->created_at)->toDateString()}}</div>
+            <div >{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
+            </div>
+        </div>
+        <div class="note">{{$item->Tratamiento}}</div>
+    </div>
+    @endforeach
+    
 </body>
 </html>
