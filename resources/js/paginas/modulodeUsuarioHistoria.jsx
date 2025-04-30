@@ -25,11 +25,9 @@ export const UsuarieHistoria = () => {
     date: "",
     time: "",
     edad: "",
-    sexo: "",
-    id: "",
-  })
-  
-  const [historia, setHistoria] = useState(null)
+    sex : ""})
+    
+    const [historia, setHistoria] = useState()
 
   useEffect(() => {
     // Esta función se ejecuta antes de que el componente se renderice
@@ -195,15 +193,22 @@ export const UsuarieHistoria = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="row mt-5 mb-5 justify-content-center">
-          <iframe src={mapUrl} width="600" height="450" style={{ border: 0 }} allowFullScreen title="OpenStreetMap" />
+      <div className="row justify-content-center my-5">
+        <div className="col-12 col-lg-10">
+          <iframe
+            src={mapUrl}
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            title="OpenStreetMap"
+          />
         </div>
       </div>
+       
       <Footer />
     </div>
   )
 }
 
-export default UsuarieHistoria
 

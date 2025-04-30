@@ -1,6 +1,6 @@
 import "../../css/app.css";
 
-export const TablaCita = ({onSelect,data}) => {
+export const TablaCita = ({ onSelect, data }) => {
 
 
   return (
@@ -12,13 +12,14 @@ export const TablaCita = ({onSelect,data}) => {
             <th>Nombre</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>Ubicacion</th>
+            <th>Ubicación</th>
+
           </tr>
         </thead>
         <tbody>
           {data.map((row, index) => (
             <tr key={index} onClick={() => onSelect(row)}>
-              <td>{index+1}</td>
+              <td>{index + 1}</td>
               <td>{row.user.Nombre}</td>
               <td>{row.fecha}</td>
               <td>{row.hora}</td>

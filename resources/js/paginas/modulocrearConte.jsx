@@ -141,7 +141,7 @@ export const CrearConte = () => {
                                                 borderRadius: "8px",
                                             }}
                                         />
-                                        <label htmlFor="Titulo">Titulo</label>
+                                        <label htmlFor="Titulo">Título</label>
                                     </div>
                                 </div>
 

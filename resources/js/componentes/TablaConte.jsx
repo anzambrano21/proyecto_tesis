@@ -18,7 +18,7 @@ export const TablaCont = ({ data, funcion }) => {
         <table className="table table-striped table-hover col">
             <thead className="table-dark">
                 <tr>
-                    <th>Titulo</th>
+                    <th>Título</th>
                     <th>Archivo</th>
                 </tr>
             </thead>

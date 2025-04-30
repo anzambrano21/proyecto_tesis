@@ -8,7 +8,7 @@ import { Exaplecontect } from "../context/contexto.jsx"
 export const Historias=()=>{
     const example = useContext(Exaplecontect)
     const [data, setData] = useState([{Nombre:'',Ocupa:''},{}]);
-    const [data2, setData2] = useState({});
+    
     useEffect(() => { 
         // Esta función se ejecuta antes de que el componente se renderice
         const fetchData = async () => { 

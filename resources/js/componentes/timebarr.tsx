@@ -126,97 +126,93 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
     return !diasBloqueados.includes(day);
   };
   return (
-    <div className=" p-8 row justify-content-around">
-      <h2 className="text-2xl font-bold mb-4">Fechas Disponibles</h2>
-      <h3>Campos Obligatorios (*)</h3>
+<div className="p-8 row justify-content-around">
+    <h2 className="text-2xl font-bold mb-4">Fechas Disponibles</h2>
+    <h3>Campos Obligatorios (*)</h3>
 
-
-      <div className="col-7 d-flex justify-content-center">
+    <div className="col-7 d-flex justify-content-center">
         <div className="col-4">
-        <DatePicker
-          selected={fechaSeleccionada}
-          onChange={handleDateChange}
-          inline
-          locale={es}
-          minDate={new Date()}
-          dayClassName={() => 'text-center'}
-          calendarClassName="border rounded-lg shadow-lg"
-          wrapperClassName="w-100"
-          formatWeekDay={(nameOfDay) => nameOfDay[0]}
-          renderDayContents={(day, date) => (
-            <div
-              className="d-flex align-items-center justify-content-center w-100 h-100"
-              style={colorearDia(date)}
-            >
-              {day}
-            </div>
-          )}
-          filterDate={filterDates}
-        />
+            <DatePicker
+                selected={fechaSeleccionada}
+                onChange={handleDateChange}
+                inline
+                locale={es}
+                minDate={new Date()}
+                dayClassName={() => 'text-center'}
+                calendarClassName="border rounded-lg shadow-lg"
+                wrapperClassName="w-100"
+                formatWeekDay={(nameOfDay) => nameOfDay[0]}
+                renderDayContents={(day, date) => (
+                    <div
+                        className="d-flex align-items-center justify-content-center w-100 h-100"
+                        style={colorearDia(date)}
+                    >
+                        {day}
+                    </div>
+                )}
+                filterDate={filterDates}
+            />
         </div>
 
         <div className="col-4">
-          <h5>Leyendas</h5>
-          <ul className="list-unstyled">
-            <li>
-              <span style={{ color: "green" }}>●</span> Verde: Alta cantidad de reservas
-            </li>
-            <li>
-              <span style={{ color: "orange" }}>●</span> Naranja: Mediana cantidad de agenda
-            </li>
-            <li>
-              <span style={{ color: "red" }}>●</span> Rojo: Ocupado
-            </li>
-          </ul>
+            <h5>Leyendas</h5>
+            <ul className="list-unstyled">
+                <li>
+                    <span style={{ color: "green" }}>●</span> Verde: Alta cantidad de reservas
+                </li>
+                <li>
+                    <span style={{ color: "orange" }}>●</span> Naranja: Mediana cantidad de agenda
+                </li>
+                <li>
+                    <span style={{ color: "red" }}>●</span> Rojo: Ocupado
+                </li>
+            </ul>
         </div>
-      </div>
-
-
-
-
-      <div className="Formulario col-5 justify-content-start">
-        <div className="row">
-          <div className="col-5">
-            <h6 >Selecciona una Hora *</h6>
-            <select className="form-control" name="hora" id="hora" onChange={handleTimeChange}>
-              <option value="">Selecione</option>
-              <option value="08:00">8 am</option>
-              <option value="09:00">9 am</option>
-              <option value="10:00">10 am</option>
-              <option value="11:00">11 am</option>
-              <option value="13:00">1 pm</option>
-              <option value="14:00">2 pm</option>
-              <option value="15:00">3 pm</option>
-              <option value="16:00">4 pm</option>
-            </select>
-            <br /> <h6 >Dirección *</h6> <input onChange={direccion} type="text" id="direc" name="Ubicacion" className="form-control" />
-            <br />
-            <h6>Tipo de Cita *</h6>
-            <label htmlFor="PrimeraCita" className="ml-2">Primera Cita</label>
-            <input type="radio" name="TCit" id="PrimeraCita" value="Primera Cita" checked={selectedValue === 'Primera Cita'} onChange={handleRadioChange} className="form-check-input" />
-            <br />
-            <label htmlFor="Seguimiento">Cita de Seguimiento</label>
-            <input type="radio" name="TCit" id="Seguimiento" value="Cita de Seguimiento" checked={selectedValue === 'Cita de Seguimiento'} onChange={handleRadioChange} className="form-check-input" />
-          </div>
-          <div className="col-5"> <h6 >Forma de Pago *</h6>
-            <select name="Pago" className="form-control" onChange={pago} id="Pago">
-              <option value="">Seleccione</option>
-              <option value="TPago">Transferencia</option>
-              <option value="PagoM">Pago Móvil</option>
-              <option value="Efectivo">Efectivo</option>
-            </select>
-            <button className="mt-5 btn btn-primary w-100" onClick={Guardar} type="submit">Reservar</button>
-          </div>
-        </div>
-        <div className="row">
-          <h3>{proxima}</h3>
-        </div>
-      </div>
-      <div>
-
-      </div>
-
     </div>
+
+    <div className="Formulario col-5 justify-content-start">
+        <div className="row">
+            <div className="col-5">
+                <h6>Selecciona una Hora *</h6>
+                <select className="form-control" name="hora" id="hora" onChange={handleTimeChange}>
+                    <option value="">Seleccione</option>
+                    <option value="08:00">8 a.m.</option>
+                    <option value="09:00">9 a.m.</option>
+                    <option value="10:00">10 a.m.</option>
+                    <option value="11:00">11 a.m.</option>
+                    <option value="13:00">1 p.m.</option>
+                    <option value="14:00">2 p.m.</option>
+                    <option value="15:00">3 p.m.</option>
+                    <option value="16:00">4 p.m.</option>
+                </select>
+                <br />
+                <h6>Dirección *</h6>
+                <input onChange={direccion} type="text" id="direc" name="Ubicación" className="form-control" />
+                <br />
+                <h6>Tipo de Cita *</h6>
+                <label htmlFor="PrimeraCita" className="ml-2">Nuevo Tratamiento</label>
+                <input type="radio" name="TCit" id="PrimeraCita" value="Primera Cita" checked={selectedValue === 'Primera Cita'} onChange={handleRadioChange} className="form-check-input" />
+                <br />
+                <label htmlFor="Seguimiento">Cita de Seguimiento</label>
+                <input type="radio" name="TCit" id="Seguimiento" value="Cita de Seguimiento" checked={selectedValue === 'Cita de Seguimiento'} onChange={handleRadioChange} className="form-check-input" />
+            </div>
+            <div className="col-5">
+                <h6>Forma de Pago *</h6>
+                <select name="Pago" className="form-control" onChange={pago} id="Pago">
+                    <option value="">Seleccione</option>
+                    <option value="TPago">Transferencia</option>
+                    <option value="PagoM">Pago Móvil</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+                <button className="mt-5 btn btn-primary w-100" onClick={Guardar} type="submit">Reservar</button>
+            </div>
+        </div>
+        <div className="row">
+            <h3>{proxima}</h3>
+        </div>
+    </div>
+</div>
+
   );
 }
 

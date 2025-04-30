@@ -47,7 +47,7 @@ export const TablaHistoria = ({ data, funcion }) => {
                 <td>{timePart}</td>
                 <td><button onClick={()=>{
                   Exportar(row.id)
-                }} className="btn bg-info w-100">exportar</button></td>
+                }} className="btn bg-info w-100">Exportar</button></td>
               </tr>
             );
           })}

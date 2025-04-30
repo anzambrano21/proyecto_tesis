@@ -121,7 +121,7 @@ export const FisioCita = () => {
 
   const getHisto = (historia) => {
     console.log(historia);
-    
+
     setHistoria(historia);
   };
 
@@ -179,7 +179,7 @@ export const FisioCita = () => {
                   onChange={(e) => setAddress(e.target.value)}
                 />
                 <button onClick={handleSubmit} className="btn btn-primary mt-2">
-                  Buscar ubicación
+                  Buscar Ubicación
                 </button>
               </div>
             </div>
@@ -238,6 +238,7 @@ export const FisioCita = () => {
           />
         </div>
       </div>
+
       <Footer />
     </div>
   );
