@@ -239,14 +239,12 @@ $neuro=[
         <div class="header">
             <img src="logo.png" alt="Logo" class="logo">
             <div class="title-section">
-
                 <div class="main-title">HISTORIA CLÍNICA</div>
                 <div>PARTE I</div>
             </div>
             <div class="form-number">
                 Forma 15-10B<br>
                 HISTORIA No. {{$data->id}}
-                
             </div>
         </div>
 
@@ -255,15 +253,12 @@ $neuro=[
                 <td colspan="2">APELLIDOS: <span class="input-field">{{$data->user->apellido}}</span></td>
                 <td colspan="2">NOMBRES: <span class="input-field">{{$data->user->Nombre}}</span></td>
                 <td>SERVICIO:<span class="input-field">{{$data->servicio}}</span></td>
-                
             </tr>
             <tr>
-                
                 <td>SEXO: <span class="input-field">{{$data->user->sexo}}</span></td>
                 <td>EDAD: <span class="input-field">{{$data->edad}}</span></td>
                 <td>EDO. CIVIL: <span class="input-field">{{$data->estadoC}}</span></td>
                 <td colspan="2">OCUPACIÓN: <span class="input-field">{{$data->ocupacion}}</span></td>
-                
             </tr>
         </table>
 
@@ -275,18 +270,13 @@ $neuro=[
             <tr>
                 <td colspan="2">DIRECCIÓN COMPLETA: <span class="input-field">{{$data->direccion}}</span></td>
             </tr>
-            
         </table>
 
         <table>
             <tr>
                 <td>FECHA DE INGRESO: <span class="input-field">{{Carbon::parse($data->created_at)->toDateString()}}</span></td>
-                
             </tr>
         </table>
-
-
-
 
         <div class="section-title">MOTIVO(S) DE INGRESO</div>
         <div class="note">{{$data->motivoIngreso}}</div>
@@ -305,21 +295,16 @@ $neuro=[
         <div class="discharge-options">
             EGRESO POR: CURACIÓN:<span class="checkbox checked"></span> MEJORÍA:<span class="checkbox">
         </div>
-       
         @else
         <div class="discharge-options">
             EGRESO POR: CURACIÓN:<span class="checkbox"></span> MEJORÍA:<span class="checkbox">
         </div>
-       
         @endif
         
         <div class="note text-right">(SI CONTRA OPINIÓN MÉDICA, HACERLE FIRMAR AL DORSO)</div>
 
         <div class="section-title">DIAGNÓSTICO CLÍNICO FINAL:</div>
         <div class="dotted-line"></div>
-
-
-
 
         <!-- Page break between Part I and Part II -->
         <div class="page-break"></div>
@@ -328,7 +313,7 @@ $neuro=[
         <div class="header">
         <img src="{{ public_path('logo.png') }}" alt="Logo" class="logo">
         <div class="title-section">
-            <div class="main-title">HISTORIA CLINICA</div>
+            <div class="main-title">HISTORIA CLÍNICA</div>
             <div>PARTE II</div>
         </div>
         <div class="form-number">Historia No. {{$data->id}}</div>
@@ -338,9 +323,7 @@ $neuro=[
         <tr>
             <td>NOMBRE: <span class="input-field">{{$data->user->Nombre}}</span></td>
             <td>SERVICIO: <span class="input-field">{{$data->servicio}}</span></td>
-            
         </tr>
-
     </table>
 
     <table>
@@ -361,14 +344,12 @@ $neuro=[
                                 <tr>
                             @endif
                             <td class="sinb">
-                                
-                                    @if(in_array($item, explode(',', $data->EXTREMIDADES)))
-                                        <span class="checkbox checked"></span>
-                                    @else
-                                        <span class="checkbox"></span>
-                                    @endif
-                                    {{ $item }}
-                                
+                                @if(in_array($item, explode(',', $data->EXTREMIDADES)))
+                                    <span class="checkbox checked"></span>
+                                @else
+                                    <span class="checkbox"></span>
+                                @endif
+                                {{ $item }}
                             </td>
                             @if($count % 2 == 1 || $loop->last)
                                 </tr>
@@ -385,14 +366,12 @@ $neuro=[
                                 <tr>
                             @endif
                             <td class="sinb">
-                                
-                                    @if(in_array($item, explode(',', $data->OSTEOMUSCULAR)))
-                                        <span class="checkbox checked"></span>
-                                    @else
-                                        <span class="checkbox"></span>
-                                    @endif
-                                    {{ $item }}
-                                
+                                @if(in_array($item, explode(',', $data->OSTEOMUSCULAR)))
+                                    <span class="checkbox checked"></span>
+                                @else
+                                    <span class="checkbox"></span>
+                                @endif
+                                {{ $item }}
                             </td>
                             @if($count % 2 == 1 || $loop->last)
                                 </tr>
@@ -400,8 +379,6 @@ $neuro=[
                             @php $count++; @endphp
                         @endforeach
                     </table>
-
-                    
 
                     <div class="section-title">3.- NERVIOSO Y MENTAL</div>
                     <table class="checkbox-table">
@@ -411,14 +388,12 @@ $neuro=[
                                 <tr>
                             @endif
                             <td class="sinb">
-                                
-                                    @if(in_array($item, explode(',', $data->EXTREMIDADES)))
-                                        <span class="checkbox checked"></span>
-                                    @else
-                                        <span class="checkbox"></span>
-                                    @endif
-                                    {{ $item }}
-                                
+                                @if(in_array($item, explode(',', $data->EXTREMIDADES)))
+                                    <span class="checkbox checked"></span>
+                                @else
+                                    <span class="checkbox"></span>
+                                @endif
+                                {{ $item }}
                             </td>
                             @if($count % 2 == 1 || $loop->last)
                                 </tr>
@@ -426,7 +401,6 @@ $neuro=[
                             @php $count++; @endphp
                         @endforeach
                     </table>
-
 
                     <div class="section-title">4.- NEUROLÓGICO Y PSÍQUICO</div>
                     <table class="checkbox-table">
@@ -436,14 +410,12 @@ $neuro=[
                                 <tr>
                             @endif
                             <td class="sinb">
-                                
-                                    @if(in_array($item, explode(',', $data->NEUROLÓGICOPSÍQUICO)))
-                                        <span class="checkbox checked"></span>
-                                    @else
-                                        <span class="checkbox"></span>
-                                    @endif
-                                    {{ $item }}
-                                
+                                @if(in_array($item, explode(',', $data->NEUROLÓGICOPSÍQUICO)))
+                                    <span class="checkbox checked"></span>
+                                @else
+                                    <span class="checkbox"></span>
+                                @endif
+                                {{ $item }}
                             </td>
                             @if($count % 2 == 1 || $loop->last)
                                 </tr>
@@ -451,42 +423,29 @@ $neuro=[
                             @php $count++; @endphp
                         @endforeach
                     </table>
-                    
                 </div>
             </td>
             <td >
             <p class="parrafo">{!! nl2br(e($data->infoAdd)) !!}</p>
-
             </td>
         </tr>
     </table>
 
     <div class="diagServi">
-        <p class="section-title">Diagnóstico del Definitivo:</p>
+        <p class="section-title">Diagnóstico Definitivo:</p>
         <p class="note">{{$data->diagnoServ}}</p>
     </div>
-
-        
     </div>
 
-
-
-    </div>
     <div class="NotasEvalua">
-        
     @foreach($data->nota as $item)
     <div class="header">
-            
             <div class="title-section">
-
-                <div class="main-title">Nota de Evaluacion </div>
-                
+                <div class="main-title">Nota de Evaluación</div>
             </div>
             <div class="form-number">
-                
-                
-            <div >{{Carbon::parse($item->created_at)->toDateString()}}</div>
-            <div >{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
+            <div>{{Carbon::parse($item->created_at)->toDateString()}}</div>
+            <div>{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
             </div>
         </div>
         <div class="note">{{$item->Nota}}</div>
@@ -494,22 +453,17 @@ $neuro=[
     @endforeach
     @foreach($data->Tratamiento as $item)
     <div class="header">
-            
             <div class="title-section">
-
-                <div class="main-title">Plan de Tratamiento </div>
-                
+                <div class="main-title">Plan de Tratamiento</div>
             </div>
             <div class="form-number">
-                
-                
-            <div >{{Carbon::parse($item->created_at)->toDateString()}}</div>
-            <div >{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
+            <div>{{Carbon::parse($item->created_at)->toDateString()}}</div>
+            <div>{{Carbon::parse($item->created_at)->format('H:i:s')}}</div>
             </div>
         </div>
         <div class="note">{{$item->Tratamiento}}</div>
     </div>
     @endforeach
-    
+    </div>
 </body>
 </html>

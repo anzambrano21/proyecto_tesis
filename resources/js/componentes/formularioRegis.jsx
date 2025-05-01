@@ -2,20 +2,49 @@ import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Eye, EyeOff, User, Mail, MapPin, Phone, Lock } from 'lucide-react'
 import axios from 'axios'
-export  const RegistroForm=()=> {
+export const RegistroForm = () => {
   const [showPassword, setShowPassword] = useState(false)
-  async function  Registro() {
-    let datos={
-      nom: document.getElementById('nombre').value,
-      email: document.getElementById('email').value,
-      ubica: document.getElementById('ubicacion').value,
-      telef: document.getElementById('telefono').value,
-      contra: document.getElementById('password').value,
+  async function Registro() {
+    // Obtener los valores del formulario
+    const datos = {
+      nom: document.getElementById('nombre').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      ubica: document.getElementById('ubicacion').value.trim(),
+      telef: document.getElementById('telefono').value.trim(),
+      contra: document.getElementById('password').value.trim(),
+    };
 
+    // Expresión regular para validar el correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Validación de campos vacíos
+    if (!datos.nom || !datos.email || !datos.ubica || !datos.telef || !datos.contra) {
+      alert('Todos los campos son obligatorios.');
+      return;
     }
-    axios.post('http://127.0.0.1:8000/api/Usuario',datos)
-    window.location.href="http://127.0.0.1:8000/InicioSecion"
-    
+
+    // Validación de correo
+    if (!emailRegex.test(datos.email)) {
+      alert('El correo electrónico no es válido.');
+      return;
+    }
+
+    // Validación de teléfono (solo números y longitud mínima)
+    if (!/^\d{7,15}$/.test(datos.telef)) {
+      alert('El número de teléfono debe contener entre 7 y 15 dígitos.');
+      return;
+    }
+
+    // Enviar datos con Axios si todas las validaciones pasan
+    axios.post('http://127.0.0.1:8000/api/Usuario', datos)
+      .then(() => {
+        window.location.href = "http://127.0.0.1:8000/InicioSecion";
+      })
+      .catch(error => {
+        console.error('Error al enviar los datos:', error);
+        alert('Hubo un problema al procesar la solicitud.');
+      });
+
   }
 
   return (
@@ -31,12 +60,12 @@ export  const RegistroForm=()=> {
                     <span className="input-group-text bg-light border-end-0">
                       <User size={18} />
                     </span>
-                    <input 
-                      type="text" 
-                      className="form-control border-start-0 bg-light" 
-                      id="nombre" 
-                      placeholder="Nombre completo" 
-                      required 
+                    <input
+                      type="text"
+                      className="form-control border-start-0 bg-light"
+                      id="nombre"
+                      placeholder="Nombre completo"
+                      required
                       aria-label="Nombre completo"
                     />
                   </div>
@@ -46,12 +75,12 @@ export  const RegistroForm=()=> {
                     <span className="input-group-text bg-light border-end-0">
                       <Mail size={18} />
                     </span>
-                    <input 
-                      type="email" 
-                      className="form-control border-start-0 bg-light" 
-                      id="email" 
-                      placeholder="Correo electrónico" 
-                      required 
+                    <input
+                      type="email"
+                      className="form-control border-start-0 bg-light"
+                      id="email"
+                      placeholder="Correo electrónico"
+                      required
                       aria-label="Correo electrónico"
                     />
                   </div>
@@ -61,12 +90,12 @@ export  const RegistroForm=()=> {
                     <span className="input-group-text bg-light border-end-0">
                       <MapPin size={18} />
                     </span>
-                    <input 
-                      type="text" 
-                      className="form-control border-start-0 bg-light" 
-                      id="ubicacion" 
-                      placeholder="Ubicación" 
-                      required 
+                    <input
+                      type="text"
+                      className="form-control border-start-0 bg-light"
+                      id="ubicacion"
+                      placeholder="Ubicación"
+                      required
                       aria-label="Ubicación"
                     />
                   </div>
@@ -76,12 +105,12 @@ export  const RegistroForm=()=> {
                     <span className="input-group-text bg-light border-end-0">
                       <Phone size={18} />
                     </span>
-                    <input 
-                      type="tel" 
-                      className="form-control border-start-0 bg-light" 
-                      id="telefono" 
-                      placeholder="Teléfono" 
-                      required 
+                    <input
+                      type="tel"
+                      className="form-control border-start-0 bg-light"
+                      id="telefono"
+                      placeholder="Teléfono"
+                      required
                       aria-label="Teléfono"
                     />
                   </div>
@@ -91,16 +120,16 @@ export  const RegistroForm=()=> {
                     <span className="input-group-text bg-light border-end-0">
                       <Lock size={18} />
                     </span>
-                    <input 
-                      type={showPassword ? "text" : "password"} 
-                      className="form-control border-start-0 border-end-0 bg-light" 
-                      id="password" 
-                      placeholder="Contraseña" 
-                      required 
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="form-control border-start-0 border-end-0 bg-light"
+                      id="password"
+                      placeholder="Contraseña"
+                      required
                       aria-label="Contraseña"
                     />
-                    <button 
-                      className="btn btn-light border border-start-0" 
+                    <button
+                      className="btn btn-light border border-start-0"
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}

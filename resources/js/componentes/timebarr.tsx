@@ -92,7 +92,8 @@ export const TimesBar = ({ diasColoridos, diasBloqueados, proxima }) => {
       direc: direc,
       pago: Pago,
       tipCit: selectedValue,
-      id: example['datos'].id, // Usa "null" como fallback si el ID no existe
+      id: example['datos'].id,
+      mod:'crear' // Usa "null" como fallback si el ID no existe
     };
 
     // Verifica si hay campos inválidos

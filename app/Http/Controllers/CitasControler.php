@@ -39,14 +39,25 @@ class CitasControler extends Controller
      */
     public function store(Request $request)
     {
+// Verificar si el usuario ya tiene una cita en la fecha seleccionada
+
+        $citaExistente = Citas::where('IdUser', $request->id)
+        ->where('fecha', $request->dia)
+        ->first();
+        if ($citaExistente) {
+            return 'modificar';
+        }
+
+        // Si no hay una cita registrada, procede a crearla
         Citas::create([
-            'IdUser'=>$request['id'],
-            'fecha'=>$request['dia'],
-            'hora'=>$request['hora'],
-            'direc'=>$request['direc'],
-            'pago'=>$request['pago'],
-            'tipCit'=>$request['tipCit'],
+        'IdUser' => $request->id,
+        'fecha' => $request->dia,
+        'hora' => $request->hora,
+        'direc' => $request->direc,
+        'pago' => $request->pago,
+        'tipCit' => $request->tipCit,
         ]);
+
         return 'exito';
     }
 
